@@ -5,13 +5,63 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-03-04T17:59:57+08:00</updated>
+<updated>2014-03-20T16:57:57+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Ruboto]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/ruboto" />
+  <id>http://www.yihangho.com/ruboto</id>
+  <published>2014-03-18T00:00:00+08:00</published>
+  <updated>2014-03-18T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;There are many mobile app development frameworks out there. Most of those frameworks attempt to solve one big problem - compatibility across the many mobile platforms. The idea is to write your app once, and compile to run on all (or at least most) major mobile platforms. Personally, I have tried &lt;a href=&quot;http://phonegap.com/&quot;&gt;PhoneGap&lt;/a&gt;, and also have heard that &lt;a href=&quot;http://www.appcelerator.com/titanium/&quot;&gt;Titanium&lt;/a&gt; is pretty neat too.&lt;/p&gt;
+
+&lt;p&gt;Today, I found &lt;a href=&quot;http://ruboto.org/&quot;&gt;Ruboto&lt;/a&gt;. Ruboto is fundamentally different from PhoneGap and Titanium. Ruboto compiles &lt;em&gt;only&lt;/em&gt; to Android. Ruboto is made possible by &lt;a href=&quot;http://jruby.org/&quot;&gt;JRuby&lt;/a&gt;, an implementation of Ruby using Java. JRuby allows Ruby code calling Java libraries, and Java code calling Ruby libraries. As such, it is natural to have something like Ruboto.&lt;/p&gt;
+
+&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;The installation process of Ruboto is relatively straightforward:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Get an implementation of Ruby. I guess it makes sense to use JRuby in this case. I strongly recommend using &lt;a href=&quot;http://rvm.io/&quot;&gt;RVM&lt;/a&gt; to install and manage various versions and implementations of Ruby.&lt;/li&gt;
+  &lt;li&gt;Get the &lt;a href=&quot;https://developer.android.com/sdk/index.html&quot;&gt;Android SDK&lt;/a&gt; and follow the &lt;a href=&quot;https://developer.android.com/sdk/installing/bundle.html&quot;&gt;setup guide&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Apparently you need Android API 10 and Intel HAXM. &lt;a href=&quot;http://software.intel.com/en-us/android/articles/speeding-up-the-android-emulator-on-intel-architecture#_Toc358213269&quot;&gt;Installation guide for Intel HAXM&lt;/a&gt; (At the time of writing, this guide does not include any instruction for OS X, but the instructions for Windows (surprisingly) work on OS X, too.)&lt;/li&gt;
+  &lt;li&gt;Also, install a newer Android API. I installed Android API 19, which corresponds to KitKat 4.4.2.&lt;/li&gt;
+  &lt;li&gt;Install &lt;a href=&quot;http://ant.apache.org/&quot;&gt;ANT&lt;/a&gt;. (&lt;code&gt;brew install ant&lt;/code&gt; if you are using &lt;a href=&quot;http://brew.sh/&quot;&gt;Homebrew&lt;/a&gt;.)&lt;/li&gt;
+  &lt;li&gt;Install the &lt;a href=&quot;https://rubygems.org/gems/jruby-jars&quot;&gt;jruby-jars&lt;/a&gt; gem. (&lt;code&gt;gem install jruby-jars&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;Configure the &lt;code&gt;ANDROID_HOME&lt;/code&gt; environment variable. (Set it to point to the &lt;strong&gt;absolute path&lt;/strong&gt; of the &lt;code&gt;sdk&lt;/code&gt; directory of the Android SDK that you have installed in step 2. Make sure that you are using absolute page, according to the documentation of Ruboto, Java does not expand &lt;code&gt;~&lt;/code&gt;.)&lt;/li&gt;
+  &lt;li&gt;Run &lt;code&gt;ruboto setup&lt;/code&gt; to iron out any other problems.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;create-an-app&quot;&gt;Create an app&lt;/h2&gt;
+&lt;p&gt;Ruboto comes with a code generator. Run&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+ruboto gen app --package com.example.test --name test --target android-19
+cd test
+rake
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Running &lt;code&gt;rake&lt;/code&gt; will build the APK file, which will be located in &lt;code&gt;bin/Test-debug.apk&lt;/code&gt;. If you have configured a virtual device, or have connected an Android device to your machine, you can run &lt;code&gt;rake install&lt;/code&gt; to install the app.&lt;/p&gt;
+
+&lt;h2 id=&quot;caveats&quot;&gt;Caveats&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;The documentation for Ruboto is incomplete, almost can be considered non-existent. I am still in the process of figuring out the API and stuff like that.&lt;/li&gt;
+  &lt;li&gt;The compiled APK is huge. There are two ways of building your app. The way that we did here will produce a relatively small APK, but it requires another app, &lt;a href=&quot;https://play.google.com/store/apps/details?id=org.ruboto.core&quot;&gt;Ruboto Core&lt;/a&gt;. To avoid this, you can compile your code together with the necessary libraries by using the &lt;code&gt;--with-jruby&lt;/code&gt; flag when running the &lt;code&gt;gen app&lt;/code&gt; command. The resulting APK is much larger. For this particular example, we have ~9MB vs ~80KB. Also it takes a longer time to compile (2 mins 16 sec vs 8 sec).&lt;/li&gt;
+&lt;/ol&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/ruboto&quot;&gt;Ruboto&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on March 18, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -936,35 +986,6 @@ RewriteRule ^$ http://www.example.com/redirect.php
 &lt;p&gt;Please take a look at &lt;a href=&quot;http://goo.gl/fMifL&quot;&gt;CoRate&lt;/a&gt;.&lt;/p&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/corate&quot;&gt;CoRate&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 20, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Cloud IDE II - Nitrous.IO]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/cloud-ide-ii-nitrous-io" />
-  <id>http://www.yihangho.com/cloud-ide-ii-nitrous-io</id>
-  <published>2013-06-28T00:00:00+08:00</published>
-  <updated>2013-06-28T00:00:00+08:00</updated>
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;&lt;a href=&quot;https://www.nitrous.io/join/_5GqfzMZwkM&quot;&gt;Nitrous.IO&lt;/a&gt; is the last of the three IDEs that I found. I fact, I just registered myself the day before I started writing this review. I was introduced to Nitrous.IO by a mentor quite a while ago, but I couldn’t manage to get an invitation for the private beta. So, I waited until public beta to try it out.&lt;/p&gt;
-
-&lt;h2 id=&quot;pricing&quot;&gt;Pricing&lt;/h2&gt;
-
-&lt;p&gt;Each virtual machine in Nitrous.IO is called a box. Users can purchase or upgrade boxes using a currency called N2O. At the time of writing, each user is given 150 N2O for free, and more N2O can be earned by various actions like linking account to GitHub, inviting friends and so on. The initial 150 N2O is enough to purchase a bare minimum box with 384 MB memory and 750 MB storage. Additional memory costs 40 N2o per 128 MB block and additional storage costs 10 N2O per 250 MB block. Although the price to purchase N2O has yet to be announced, from the &lt;a href=&quot;https://www.nitrous.io/pricing&quot;&gt;pricing page&lt;/a&gt;, it is easy to deduce that 10 N2O costs $0.35. I am confused right here. According to the &lt;a href=&quot;http://www.youtube.com/watch?v=u6Qu9T5lRqI&quot;&gt;Nitrous.IO introduction video&lt;/a&gt;, N2Os last forever and will be returned when a box is destroyed. (For example, if a box that costs 150 N2O is destroyed, user will get back that 150 N2O.) But from the pricing page, the tentative price is given as dollar per month. So, in the future, if users choose to purchase N2O, will these N2O last forever as a one-time purchase?&lt;/p&gt;
-
-&lt;h2 id=&quot;virtual-machine&quot;&gt;Virtual Machine&lt;/h2&gt;
-
-&lt;p&gt;Each box can have a specific template running Ubuntu 12.04 LTS. At the time of writing, there are four templates available - Ruby on Rails, Node.js, Django and Go. I tried with the Go template, not understanding what template actually means. Well, each template will have all the necessary tools required to develop for that framework. For example, in the Go template, the Google App Engine SDK is installed by default. But that doesn’t mean that other languages cannot be used - I found GCC, Ruby, Python, Python 3, Java, and Go (of course). However, to get Ruby on Rails working, you will need to do your own work - install the Rails gem. At this point, I realize we do not have root access, but almost everything is available - Vim, Git, Subversion, Mercurial, SSH and other. As for SSH, both SSH from and to other machines is supported. For the sake of curiosity, I tried to install RVM. I manage to do so, but couldn’t install other versions of Ruby.&lt;/p&gt;
-
-&lt;h2 id=&quot;overall-experience&quot;&gt;Overall experience&lt;/h2&gt;
-
-&lt;p&gt;Personally, I enjoy using Nitrous.IO, besides the lack of root access is making me itchy. The text editor is a typical plain text editor with syntax highlighting for more than a dozen languages including C, C++, CSS, HTML, Go, Ruby, SQL, etc. (Even includes some languages that Nitrous.IO doesn’t give compiler/interpreter for like PHP.) One thing that surprises (and pleases) me very very much is the performance of the shell. As we will see with the other two IDEs, their shell is slow. I can easily type faster than the shell. Using vim on such environment is a pain. However, on Nitrous.IO, the shell is almost as fast as the Terminal of my Mac or some high-end VPS.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/cloud-ide-ii-nitrous-io&quot;&gt;Cloud IDE II - Nitrous.IO&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on June 28, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
