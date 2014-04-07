@@ -5,13 +5,46 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-03-20T16:57:57+08:00</updated>
+<updated>2014-04-06T21:27:22+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Biology and Computer Science]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/biology-and-computer-science" />
+  <id>http://www.yihangho.com/biology-and-computer-science</id>
+  <published>2014-04-06T00:00:00+08:00</published>
+  <updated>2014-04-06T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;Note: This essay contains some stuff about Biology, and I am no expert in Biology, as a result, what I say here might not be 100% accurate.&lt;/p&gt;
+
+&lt;p&gt;Biology has always been my least favorite subject among the three main branches of science. However, I am happy that I have learned something really enjoyable in Biology, something very similar to what I know in Computer Science.&lt;/p&gt;
+
+&lt;p&gt;As most people know, deep in our cells, we have something called DNA (deoxyribonucleic acid). DNA is actually a pair of helix polymer strands. Each strand consists of nucleotide monomers, which are held together by phosphodiester bonds. Each nucleotide molecule is made up of deoxyribose (a pentose sugar), phosphate group and nitrogen base. In the context of DNA, there are four types of nitrogen base: adenine (A), cytosine (C), guanine (G) and thymine (T). Nitrogen bases come in pairs - one on each side of the double helix structure. Also, adenine will always pair with thymine, and cytosine will always pair with guanine. For example, if adenine appears on one of the strands, thymine will appear on the other strand at the similar position as adenine. These pairs are held together by hydrogen bonds.&lt;/p&gt;
+
+&lt;p&gt;What is so interesting about nitrogen bases is that they are the ones which carry important genetic information like how to produce various protein molecules. The idea behind the beauty of DNA is very similar to that of encoding systems like ASCII and UTF-8.&lt;/p&gt;
+
+&lt;p&gt;Let’s consider the ASCII encoding. ASCII defines how common characters — like the 52 alphabets (uppercase and lowercase letters), the ten Arabic digits, and some punctuation — can be represented and stored in a computer system. Essentially, computers operate by the bits, which have two possible states each. A byte, however, is a string of eight contiguous bits. As a result, each byte can store exactly 2^8 = 256 different information. The modern version of ASCII uses all 256 values, all the way from 0 to 255. For example, value 65 represents the character &lt;code&gt;A&lt;/code&gt;, value 126 represents a tilde, &lt;code&gt;~&lt;/code&gt;, and so on.&lt;/p&gt;
+
+&lt;p&gt;As for DNA, there is actually a very similar system. Each nucleotide has three possible “states”: A, C, G and T; a set of three contiguous nucleotides form a codon. Now, there are some interesting similarities between a computer and DNA: in DNA, a “bit” has four possible states, compared to a binary bit, which has two possible states; a “byte” (codon) is made up of 3 “bits”, compared to computer bytes, which is made up of eight bits; a codon can store 4^3 = 64 different information, while a byte can store 256 different information. What is more interesting is that there is actually an encoding system defined for protein structures. A protein structure is a string of smaller units, called amino acids. There are 20 possible amino acids that will be used to synthesize protein molecules. Each possible “state” of a codon represents one of the 20 amino acids. For example, &lt;code&gt;GGT&lt;/code&gt; represents glycine, &lt;code&gt;TGG&lt;/code&gt; represents tryptophan, and so on.&lt;/p&gt;
+
+&lt;p&gt;Computer memory is like a very long row of cells, each cell can hold either 0 or 1. Each cell has an address, which is actually just a number. Hence, when a program runs, it needs addresses in order to access information in the memory cells. Besides that, the program also needs to know when to stop reading. For programs written in C/C++, the stopping positions are set to 0, which is also known as the null character. In other words, given an address, a program can read from that address, go to the next cell, and the next, and so on until it sees the null character.&lt;/p&gt;
+
+&lt;p&gt;Quite surprisingly, there is also a similar system for living things. A strand of the nucleotides is like computer memory. The differences are: each “cell” (nucleotide) can hold either A, C, G or T, and (I think) there is no such thing as memory address. So how does the &lt;em&gt;thing&lt;/em&gt; that actually reads the DNA sequence to produce protein structures know where to start and stop reading? Well, Mother Nature has some clever schemes. Each protein structure &lt;em&gt;must&lt;/em&gt; (yes, it is universal, it doesn’t matter if you are a human, a t-rex, an oak tree, etc.) start with the amino acid called methionine, represented by ATG and end with ochre (TAA), amber (TAG) or opal (TGA). Hence, TAA, TAG and TGA are like the null character in C/C++. When that &lt;em&gt;thing&lt;/em&gt; is trying to build a protein structure and is trying to look for the “recipe”, it will look for ATG, starts reading from there and continue until it sees a TAA, TAG or TGA.&lt;/p&gt;
+
+&lt;p&gt;Note: If you check any textbook or the Internet, you might think that the genetic codes that I use here are wrong. The problem is that you will never see thymine (T) in those code tables. This is because those tables show the nucleotide sequence in an &lt;em&gt;RNA&lt;/em&gt; strand, not a DNA strand, but I am referring to DNA here. RNA is the small brother of DNA. RNA is made up of a single strand instead of a pair of helix. Also, thymine will never appear in RNA, its place is taken over by uracil (U). In this context, the role of RNA is to act as a middle man between DNA and the &lt;em&gt;thing&lt;/em&gt; that produces protein.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/biology-and-computer-science&quot;&gt;Biology and Computer Science&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on April 06, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -941,51 +974,6 @@ RewriteRule ^$ http://www.example.com/redirect.php
 &lt;/ul&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/chrome-extension-development-in-a-nutshell&quot;&gt;Chrome Extension Development in a Nutshell&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 26, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[CoRate]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/corate" />
-  <id>http://www.yihangho.com/corate</id>
-  <published>2013-07-20T00:00:00+08:00</published>
-  <updated>2013-07-20T00:00:00+08:00</updated>
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;CoRate is the project that I am working on right now. It is a Google Chrome extension that acts as a universal rating system - CoRate is independent of sites that you are visiting, you can rate on any site even if that site do not have a rating system.&lt;/p&gt;
-
-&lt;p&gt;The genesis of CoRate took place in a hackathon. Here is a list of unofficial FAQs:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Why CoRate? Why not just use the built-in rating system on the site that I am visiting?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Not all sites have rating system. Personally, I think rating system might hurt the web site especially those famous sites that are surviving on their fame, not the quality of content.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Why should I rate? I am wasting my 2 seconds.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;True, rating a site takes about 2 seconds. We will never force our user to rate, but CoRate is an collaborative effort of the community of users. Each rating counts, and the average will be shown to the next visitors so that they have an rough idea on the quality of the site that they are visiting right now.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Does frequently rating on sites mean that my browsing behaviour will be known?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Theoretically, yes. But it is impossible on CoRate. Take a look at &lt;a href=&quot;http://www.corate.us/data_collection.html&quot;&gt;how we collect data&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Why Chrome extension?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;It is one of the rules of the hackathon.&lt;/p&gt;
-
-&lt;p&gt;Please take a look at &lt;a href=&quot;http://goo.gl/fMifL&quot;&gt;CoRate&lt;/a&gt;.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/corate&quot;&gt;CoRate&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 20, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
