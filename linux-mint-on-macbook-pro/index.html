@@ -1,1 +1,185 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Linux Mint on MacBook Pro &#8211; I am Yihang</title><meta name=description content="Roughly how I did it"><meta name=keywords content="Linux Mint, MacBook Pro"><meta name="twitter:card" content=summary><meta name="twitter:image" content="http://www.yihangho.com/images/"><meta name="twitter:title" content="Linux Mint on MacBook Pro"><meta name="twitter:description" content="Roughly how I did it"><meta name="twitter:creator" content="@yihang5"><meta property="og:locale" content=en_US><meta property="og:type" content=article><meta property="og:title" content="Linux Mint on MacBook Pro"><meta property="og:description" content="Roughly how I did it"><meta property="og:url" content="http://www.yihangho.com/linux-mint-on-macbook-pro"><meta property="og:site_name" content="I am Yihang"><link rel=canonical href="http://www.yihangho.com/linux-mint-on-macbook-pro"><link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel=alternate title="I am Yihang Feed"><link rel=author href="https://plus.google.com/+YihangHo/?rel=author"><meta name=HandheldFriendly content=True><meta name=MobileOptimized content=320><meta name=viewport content="width=device-width, initial-scale=1.0"><link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel=stylesheet><link rel=stylesheet href="http://www.yihangho.com/assets/css/main.min.css"><!--[if (lt IE 9) & (!IEMobile)]><link rel=stylesheet href="http://www.yihangho.com/assets/css/ie.min.css"><![endif]--><meta http-equiv=cleartype content=on><script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script></head><body class=article itemscope itemtype="http://schema.org/WebPage"><!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]--><div class=navigation-wrapper><div class=site-name><a href="http://www.yihangho.com">I am Yihang</a></div><div class=top-navigation><nav role=navigation itemscope itemtype="http://schema.org/SiteNavigationElement"><ul><li><a href="http://www.yihangho.com/about">About</a></li><li><a href="http://www.yihangho.com/articles">Articles</a></li><li><a href="http://www.yihangho.com/apps">Apps</a></li><li><i class=icon-feed></i><a href="http://www.yihangho.com/feed.xml" title="Atom/RSS feed">Feed</a></ul></nav></div></div><div id=main role=main itemprop=mainContentOfPage itemscope itemtype="http://schema.org/Blog"><div class=article-author-top><img src="http://www.yihangho.com/images/bio-photo.jpg" class=bio-photo alt="Yihang Ho bio photo"></a><h3>Yihang Ho</h3><p>Coder</p><a href="http://twitter.com/yihang5" class=author-social target=_blank><i class=icon-twitter></i> Twitter</a><a href="http://facebook.com/yihangho" class=author-social target=_blank><i class=icon-facebook></i> Facebook</a><a href="https://plus.google.com/+YihangHo/" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a><a href="http://github.com/yihangho" class=author-social target=_blank><i class=icon-github></i> Github</a><a href="mailto:me@yihangho.com" class=author-social target=_blank><i class=icon-mail></i> Email</a></div><article itemscope itemtype="http://schema.org/BlogPosting" itemprop=blogPost><div class=headline-wrap><h1 itemprop=name>Linux Mint on MacBook Pro</h1><h2></h2></div><div class=article-wrap itemprop=text><p>A few days ago, I tried installing Linux Mint on my MacBook Pro. The whole process was relatively smooth, here is how I did it. For the record, I was installing Linux Mint 16 “Petra” Cinnamon 32-bit, and my MacBook Pro is the non-retina 13-inch, Mid 2012 version. I think the installation process is more or less the same for Ubuntu and other MacBooks. I used <a href="https://help.ubuntu.com/community/MactelSupportTeam/AppleIntelInstallation">this guide</a> provided by the Mactel Team as a general pointer.</p><h2 id=creating-liveusb>Creating LiveUSB</h2><p>I followed the guide on Ubuntu’s site <a href="http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx">here</a> to create the LiveUSB containing Linux Mint.</p><h2 id=create-a-new-partition>Create a new partition</h2><p>I used the Disk Utility to create a new partition. Due to the fact that Linux does not recognize HFS, you have to format the new partition as FAT-32.</p><h2 id=installing-refit>Installing rEFIt</h2><p>I downloaded rEFIt from <a href="http://refit.sourceforge.net/#download">here</a>. Here’s a little bit of spoiler - I <em>think</em> rEFIt is not necessary to install any Linux on a Mac. I have not touched rEFIt from start to end, and end up uninstalling it following this <a href="http://refit.sourceforge.net/doc/c1s3_remove.html">guide</a>. If you are willing to take the risk, try to go on without rEFIt and let me know if it works.</p><h2 id=boot-to-liveusb>Boot to LiveUSB</h2><p>Now, reboot the machine. As the machine is starting up, press and hold on to the <kbd>option</kbd> key until you see a list of drives/partitions to choose from. Choose “Windows” with a USB symbol on it. Choose something like “Try Linux Mint” when presented with a list of options (instead of “Install Linux Mint”).</p><h2 id=install-linux-mint>Install Linux Mint</h2><p>Now, you should be able to see an icon on desktop to install Linux Mint. Click on it. You will then be presented with a wizard to guide you through the installation process. For me, the installer recognizes that I am on a Mac and asked if I want to keep OS X and install Linux Mint beside it or replace OS X with Linux Mint. I chose the former. After that, the installer also chose the correct partition to install to. Just make sure that that partition is indeed the correct one.</p><hr/><footer role=contentinfo><div class=article-author-bottom><img src="http://www.yihangho.com/images/bio-photo.jpg" class=bio-photo alt="Yihang Ho bio photo"></a><h3>Yihang Ho</h3><p>Coder</p><a href="http://twitter.com/yihang5" class=author-social target=_blank><i class=icon-twitter></i> Twitter</a><a href="http://facebook.com/yihangho" class=author-social target=_blank><i class=icon-facebook></i> Facebook</a><a href="https://plus.google.com/+YihangHo/" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a><a href="http://github.com/yihangho" class=author-social target=_blank><i class=icon-github></i> Github</a><a href="mailto:me@yihangho.com" class=author-social target=_blank><i class=icon-mail></i> Email</a></div><p class=byline><strong>Linux Mint on MacBook Pro</strong> was published on <time datetime="2014-01-29T00:00:00+08:00" itemprop=datePublished>January 29, 2014</time> by <span itemprop=author itemscope itemtype="http://schema.org/Person"><span itemprop=name><a href="http://www.yihangho.com/about" title="About Yihang Ho" itemprop=url>Yihang Ho</a></span></span>.</p></footer></div></article></div><div class=footer-wrap><div class=related-articles><h4>You might also enjoy <small class=pull-right>(<a href="http://www.yihangho.com/articles">View all articles</a>)</small></h4><ul><li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li><li><a href="http://www.yihangho.com/us-visa-application" title="US Visa Application">US Visa Application</a></li><li><a href="http://www.yihangho.com/ruboto" title=Ruboto>Ruboto</a></li></ul><hr/></div><footer><span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span></footer></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script><script src="http://www.yihangho.com/assets/js/scripts.min.js"></script><script>var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script></body></html>
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Linux Mint on MacBook Pro &#8211; I am Yihang</title>
+<meta name="description" content="Roughly how I did it">
+<meta name="keywords" content="Linux Mint, MacBook Pro">
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yihangho.com/images/">
+<meta name="twitter:title" content="Linux Mint on MacBook Pro">
+<meta name="twitter:description" content="Roughly how I did it">
+<meta name="twitter:creator" content="@yihang5">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Mint on MacBook Pro">
+<meta property="og:description" content="Roughly how I did it">
+<meta property="og:url" content="http://www.yihangho.com/linux-mint-on-macbook-pro">
+<meta property="og:site_name" content="I am Yihang">
+
+
+
+
+
+<link rel="canonical" href="http://www.yihangho.com/linux-mint-on-macbook-pro">
+<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
+<link rel="author" href="https://plus.google.com/+YihangHo/?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/ie.min.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+</head>
+
+<body class="article" itemscope itemtype="http://schema.org/WebPage">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://www.yihangho.com">I am Yihang</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+			<ul>
+				
+				<li><a href="http://www.yihangho.com/about" >About</a></li>
+				
+				<li><a href="http://www.yihangho.com/articles" >Articles</a></li>
+				
+				<li><a href="http://www.yihangho.com/apps" >Apps</a></li>
+				
+				<li><i class="icon-feed"></i> <a href="http://www.yihangho.com/feed.xml" title="Atom/RSS feed">Feed</a>
+			</ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/Blog">
+<div class="article-author-top">
+<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="https://plus.google.com/+YihangHo/" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+</div>
+<article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+<div class="headline-wrap">
+<h1 itemprop="name">Linux Mint on MacBook Pro</h1>
+<h2></h2>
+</div><!--/ .headline-wrap -->
+<div class="article-wrap" itemprop="text">
+<p>A few days ago, I tried installing Linux Mint on my MacBook Pro. The whole process was relatively smooth, here is how I did it. For the record, I was installing Linux Mint 16 “Petra” Cinnamon 32-bit, and my MacBook Pro is the non-retina 13-inch, Mid 2012 version. I think the installation process is more or less the same for Ubuntu and other MacBooks. I used <a href="https://help.ubuntu.com/community/MactelSupportTeam/AppleIntelInstallation">this guide</a> provided by the Mactel Team as a general pointer.</p>
+
+<h2 id="creating-liveusb">Creating LiveUSB</h2>
+<p>I followed the guide on Ubuntu’s site <a href="http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx">here</a> to create the LiveUSB containing Linux Mint.</p>
+
+<h2 id="create-a-new-partition">Create a new partition</h2>
+<p>I used the Disk Utility to create a new partition. Due to the fact that Linux does not recognize HFS, you have to format the new partition as FAT-32.</p>
+
+<h2 id="installing-refit">Installing rEFIt</h2>
+<p>I downloaded rEFIt from <a href="http://refit.sourceforge.net/#download">here</a>. Here’s a little bit of spoiler - I <em>think</em> rEFIt is not necessary to install any Linux on a Mac. I have not touched rEFIt from start to end, and end up uninstalling it following this <a href="http://refit.sourceforge.net/doc/c1s3_remove.html">guide</a>. If you are willing to take the risk, try to go on without rEFIt and let me know if it works.</p>
+
+<h2 id="boot-to-liveusb">Boot to LiveUSB</h2>
+<p>Now, reboot the machine. As the machine is starting up, press and hold on to the <kbd>option</kbd> key until you see a list of drives/partitions to choose from. Choose “Windows” with a USB symbol on it. Choose something like “Try Linux Mint” when presented with a list of options (instead of “Install Linux Mint”).</p>
+
+<h2 id="install-linux-mint">Install Linux Mint</h2>
+<p>Now, you should be able to see an icon on desktop to install Linux Mint. Click on it. You will then be presented with a wizard to guide you through the installation process. For me, the installer recognizes that I am on a Mac and asked if I want to keep OS X and install Linux Mint beside it or replace OS X with Linux Mint. I chose the former. After that, the installer also chose the correct partition to install to. Just make sure that that partition is indeed the correct one.</p>
+
+<div style="text-align:center;"><p><div data-role="spritzer"></div></p></div>
+<hr />
+<footer role="contentinfo">
+<div class="article-author-bottom">
+<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="https://plus.google.com/+YihangHo/" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+</div>
+<p class="byline"><strong>Linux Mint on MacBook Pro</strong> was published on <time datetime="2014-01-29T00:00:00+08:00" itemprop="datePublished">January 29, 2014</time> by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="http://www.yihangho.com/about" title="About Yihang Ho" itemprop="url">Yihang Ho</a></span></span>.</p>
+</footer>
+</div><!-- /.article-wrap -->
+</article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+<div class="related-articles">
+<h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/articles">View all articles</a>)</small></h4>
+<ul>
+
+<li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li>
+
+<li><a href="http://www.yihangho.com/us-visa-application" title="US Visa Application">US Visa Application</a></li>
+
+<li><a href="http://www.yihangho.com/ruboto" title="Ruboto">Ruboto</a></li>
+
+</ul>
+<hr />
+</div><!-- /.related-articles -->
+<footer>
+<span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span>
+
+</footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
+<!-- Spritz -->
+<script>
+  window.jQuery || document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">\x3C/script>');
+  var SpritzSettings = {
+    clientId: "1e621458778214a7c",
+    redirectUri: "data:text/html;base64,PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0idXRmLTgiIC8+PG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xIiAvPjx0aXRsZT5TcHJpdHogTG9naW4gU3VjY2VzczwvdGl0bGU+PC9oZWFkPjxib2R5PjxzY3JpcHQgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij52YXIgaGFzaD13aW5kb3cubG9jYXRpb24uaGFzaCxvcmlnaW49d2luZG93LmxvY2F0aW9uLnByb3RvY29sKyIvLyIrd2luZG93LmxvY2F0aW9uLmhvc3Q7aWYodHlwZW9mKGxvY2FsU3RvcmFnZSkhPT0idW5kZWZpbmVkIil7dHJ5e2xvY2FsU3RvcmFnZS5zZXRJdGVtKCJzcHJpdHouYXV0aFJlc3BvbnNlIixoYXNoKX1jYXRjaChlKXtpZihjb25zb2xlKXtjb25zb2xlLmxvZyhlLCJDYW4ndCB3cml0ZSB0byBsb2NhbFN0b3JhZ2UiKX19fWlmKHdpbmRvdy5vcGVuZXIpe3dpbmRvdy5vcGVuZXIucG9zdE1lc3NhZ2UoaGFzaCxvcmlnaW4pfTs8L3NjcmlwdD48L2JvZHk+PC9odG1sPg=="
+  };
+</script>
+<script id="spritzjs" type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+
+
+<!-- Piwik Analytics -->
+<!-- Piwik -->
+<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
+<!-- End Piwik Code -->
+
+
+</body>
+</html>

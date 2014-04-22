@@ -5,13 +5,34 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-04-06T21:27:22+08:00</updated>
+<updated>2014-04-22T22:57:38+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Spritz for Jekyll]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/spritz-for-jekyll" />
+  <id>http://www.yihangho.com/spritz-for-jekyll</id>
+  <published>2014-04-22T00:00:00+08:00</published>
+  <updated>2014-04-22T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;&lt;a href=&quot;http://www.spritzinc.com/&quot;&gt;Spritz&lt;/a&gt; - a technology attempts to speed up human reading speed with little to no training. If you are interested to know how it works, they have prepared a a pretty interesting &lt;a href=&quot;http://www.spritzinc.com/the-science/&quot;&gt;article&lt;/a&gt;, but in short, instead of having your eyes moving around a lot while reading, Spritz keep your eyes fixed at one point, and move the text instead.&lt;/p&gt;
+
+&lt;p&gt;Today, I am finally invited to try out their SDK, and the first thing I do is to write a plugin for Jekyll that simplifies that process of integrating Spritz on Jekyll-powered site. &lt;a href=&quot;https://github.com/yihangho/spritz-for-jekyll&quot;&gt;Spritz for Jekyll&lt;/a&gt; is a Ruby gem. Setting it up should be really simple - the only hurdle is to get register with Spritz.&lt;/p&gt;
+
+&lt;p&gt;Do give it a try!&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/spritz-for-jekyll&quot;&gt;Spritz for Jekyll&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on April 22, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -930,50 +951,6 @@ RewriteRule ^$ http://www.example.com/redirect.php
 &lt;p&gt;Now I am using &lt;a href=&quot;http://kramdown.rubyforge.org/&quot;&gt;Kramdown&lt;/a&gt; as the Markdown interpreter, and the template is &lt;a href=&quot;https://github.com/mmistakes/minimal-mistakes&quot;&gt;Minimal Mistakes&lt;/a&gt;.&lt;/p&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/jekyll&quot;&gt;Jekyll&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 27, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Chrome Extension Development in a Nutshell]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell" />
-  <id>http://www.yihangho.com/chrome-extension-development-in-a-nutshell</id>
-  <updated>2013-11-05T00:00:00-00:00</updated>
-  <published>2013-07-26T00:00:00+08:00</published>
-  
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;Recently I’ve spent quite a bit of time developing a &lt;a href=&quot;http://www.yihangho.com/corate&quot;&gt;Chrome extension&lt;/a&gt;. It is done mainly in JavaScript, HTML and CSS. If you project involves an external server to store data or to do other computation, some of the server-side languages like PHP will be needed. Let’s talk about the client-side of a Chrome Extension.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Each Chrome extension is initialized by a JSON file called &lt;code&gt;manifest.json&lt;/code&gt; describing various properties of the extension.&lt;/li&gt;
-  &lt;li&gt;There are three main areas in a Chrome extension - popup, background and content. Not all of these three areas have to be used in all extensions.&lt;/li&gt;
-  &lt;li&gt;Popup is the page that will be shown to the users when they click on your extension symbol.&lt;/li&gt;
-  &lt;li&gt;One thing to take note about popup is that all the scripts included in popup is active only when user click on the extension symbol.&lt;/li&gt;
-  &lt;li&gt;Background is like a daemon that can either be awake all the time, or act as events listener that is activated when certain events happen.&lt;/li&gt;
-  &lt;li&gt;Google recommends that background should be configured to act as events listener rather than being awake all the time. The reason is to reduce resources use.&lt;/li&gt;
-  &lt;li&gt;The background can listen to a lot of events, for example, tab change, window focus change, URL update, title update, Chrome storage change, etc.&lt;/li&gt;
-  &lt;li&gt;One of the many good uses of background is to run upgrade configuration. Background is called when i. Chrome starts; ii. your extension is first installed; iii. you extension is updated. Hence, you can store the version number in either local storage or Chrome storage and compare it with the current version number and make appropriate changes.&lt;/li&gt;
-  &lt;li&gt;Content is the code that runs on the page that the user is currently visiting. You can imagine content script as a script injected by your extension to the page that user is currently visiting.&lt;/li&gt;
-  &lt;li&gt;The way Chrome handles content script makes developers’ life easy. You can imagine that content script is executed in a separate environment as the scripts loaded from the page the user is currently visiting. That way, content script cannot call or use any variable or method declared by the original script, and vice versa. A very important implication is that we do not need to worry about conflicts. For example, we do not need to check if jQuery is being included by default or not, if it is, what is the version. To use jQuery, just include it as one of the content scripts. Also, when declaring functions and global variables, we do not need to worry that there will be conflicts with the default scripts.&lt;/li&gt;
-  &lt;li&gt;Each of these three areas live on their own environment as well - you can’t (directly) access, for example, functions and variables in content from background.&lt;/li&gt;
-  &lt;li&gt;However, it is still possible to communicate between these areas.&lt;/li&gt;
-  &lt;li&gt;To communicate between popup and background, Chrome provides an API to get the “window” object of each page of the extension. Using that “window” object, it is possible to access the variables and functions of popup and background.&lt;/li&gt;
-  &lt;li&gt;To communicate between content and popup or content and background, Chrome provides an API to literally send a message between content and popup or content and background. This API also allows a callback function to be called after the message is sent. So, on the receiving end, just provide an event listener to listen for messages sent from the other end, analyze the request send, do appropriate actions and run the callback functions to reply to the calling end.&lt;/li&gt;
-  &lt;li&gt;Chrome takes security very seriously most of the time.&lt;/li&gt;
-  &lt;li&gt;The times when it doesn’t care about security is when you load an unpacked extension. Many things that are not suppose to work due to permission issue will still work.&lt;/li&gt;
-  &lt;li&gt;But for other packaged extensions, better make sure that you have the correct permissions. For example, to send an Ajax request to an outside server, you need to specify the domain for that server in the JSON file. Various APIs have their own permissions as well. It is good to make sure you check the permissions for all APIs that you are using before publishing.&lt;/li&gt;
-  &lt;li&gt;Also, Chrome does not allow inline JavaScript - all JavaScript codes must be included from another file. Even HTML attributes like &lt;code&gt;onclick=&quot;btnClick()&quot;&lt;/code&gt; is not allowed.&lt;/li&gt;
-  &lt;li&gt;In general, it is not hard to produce a Chrome extension once you get the hang of it.&lt;/li&gt;
-  &lt;li&gt;After you have finished a Chrome extension, you might want to publish it. The easy way is to publish it in Chrome web store.&lt;/li&gt;
-  &lt;li&gt;Just register at Chrome web store dashboard, pay $5 and you can start publishing your extensions.&lt;/li&gt;
-  &lt;li&gt;$5 is a one-time payment, after paying that, you can publish as many extensions and apps as you want.&lt;/li&gt;
-  &lt;li&gt;The harder way is to host the extension yourself, you’ll also need to specify where to get updates for your extension, etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/chrome-extension-development-in-a-nutshell&quot;&gt;Chrome Extension Development in a Nutshell&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 26, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
