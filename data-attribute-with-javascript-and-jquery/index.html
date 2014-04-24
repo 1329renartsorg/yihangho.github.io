@@ -1,255 +1,39 @@
-<!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
-<head>
-<meta charset="utf-8">
-<title>Data attribute with JavaScript and jQuery &#8211; I am Yihang</title>
-<meta name="description" content="Acessing data attributes with JavaScript and jQuery">
-<meta name="keywords" content="Web development, JavaScript, jQuery, HTML5">
-<!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://www.yihangho.com/images/">
-<meta name="twitter:title" content="Data attribute with JavaScript and jQuery">
-<meta name="twitter:description" content="Acessing data attributes with JavaScript and jQuery">
-<meta name="twitter:creator" content="@yihang5">
-
-<!-- Open Graph -->
-<meta property="og:locale" content="en_US">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Data attribute with JavaScript and jQuery">
-<meta property="og:description" content="Acessing data attributes with JavaScript and jQuery">
-<meta property="og:url" content="http://www.yihangho.com/data-attribute-with-javascript-and-jquery">
-<meta property="og:site_name" content="I am Yihang">
-
-
-
-
-
-<link rel="canonical" href="http://www.yihangho.com/data-attribute-with-javascript-and-jquery">
-<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
-<link rel="author" href="https://plus.google.com/+YihangHo/?rel=author">
-
-<!-- http://t.co/dKP3o1e -->
-<meta name="HandheldFriendly" content="True">
-<meta name="MobileOptimized" content="320">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Google Webfonts -->
-<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
-<!-- For all browsers -->
-<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
-
-<!--[if (lt IE 9) & (!IEMobile)]>
-<link rel="stylesheet" href="http://www.yihangho.com/assets/css/ie.min.css">
-<![endif]-->
-
-<meta http-equiv="cleartype" content="on">
-
-<!-- Load Modernizr -->
-<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
-</head>
-
-<body class="article" itemscope itemtype="http://schema.org/WebPage">
-
-<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
-
-<div class="navigation-wrapper">
-	<div class="site-name">
-		<a href="http://www.yihangho.com">I am Yihang</a>
-	</div><!-- /.site-name -->
-	<div class="top-navigation">
-		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
-			<ul>
-				
-				<li><a href="http://www.yihangho.com/about" >About</a></li>
-				
-				<li><a href="http://www.yihangho.com/articles" >Articles</a></li>
-				
-				<li><a href="http://www.yihangho.com/apps" >Apps</a></li>
-				
-				<li><i class="icon-feed"></i> <a href="http://www.yihangho.com/feed.xml" title="Atom/RSS feed">Feed</a>
-			</ul>
-		</nav>
-	</div><!-- /.top-navigation -->
-</div><!-- /.navigation-wrapper -->
-
-
-
-
-<div id="main" role="main" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/Blog">
-<div class="article-author-top">
-<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
-<h3>Yihang Ho</h3>
-<p>Coder</p>
-<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
-<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
-<a href="https://plus.google.com/+YihangHo/" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
-
-
-<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
-
-
-<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
-
-</div>
-<article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-<div class="headline-wrap">
-<h1 itemprop="name">Data attribute with JavaScript and jQuery</h1>
-<h2></h2>
-</div><!--/ .headline-wrap -->
-<div class="article-wrap" itemprop="text">
-<p>One thing from HTML5 that fascinates me a lot is the <code>data-</code> attribute. It helps eliminating some clumsiness that happen before HTML5 especially when writing a single-page application. For example, sometimes we need to use a hidden input to store some temporary states. Those data can be stored in the <code>data-</code> attribute.</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;form&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;user-id&quot;</span> <span class="na">value=</span><span class="s">&quot;12345&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;fname&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/form&gt;</span>
-</code></pre></div>
-
-<p>can be replaced with</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">data-user-id=</span><span class="s">&quot;12345&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;fname&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/form&gt;</span>
-</code></pre></div>
-
-<p>Another advantage of <code>data-</code> attribute is the ability to write unobtrusive JavaScript. If you have seen the HTML code generated by Ruby on Rails, you will understand. Suppose you want to show the user a confirmation box after the user clicked on a link. Without the <code>data-</code> attribute, we have to do this</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.example.com&quot;</span> <span class="na">onclick=</span><span class="s">&quot;return confirm(&#39;Are you sure?&#39;);&quot;</span><span class="nt">&gt;</span>Click me!<span class="nt">&lt;/a&gt;</span>
-</code></pre></div>
-
-<p>which is kind of not nice as we have to inline some JavaScript code. With <code>data-</code> attribute, however, we can do this</p>
-
-<div class="highlight"><pre><code class="html"><span class="c">&lt;!-- index.html --&gt;</span>
-<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.example.com&quot;</span> <span class="na">data-confirmation=</span><span class="s">&quot;Are you sure?&quot;</span><span class="nt">&gt;</span>Click me!<span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><code class="javascript"><span class="c1">// script.js</span>
-<span class="kd">var</span> <span class="nx">anchors</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">);</span>
-<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">anchors</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">anchors</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="nx">anchorOnClickListener</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kd">function</span> <span class="nx">anchorOnClickListener</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">confirmation</span> <span class="o">?</span> <span class="nx">confirm</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">confirmation</span><span class="p">)</span> <span class="o">:</span> <span class="kc">true</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<p>As we can see, although the second method results in a much longer code, we will also enjoy all the benefits that come with writing obtrusive JavaScript.</p>
-
-<p>Our beloved jQuery, as expected, handles <code>data-</code> attributes gracefully. There is a dedicated method to do this - <a href="http://api.jquery.com/data/"><code>.data()</code></a>. In the first example, we can retrieve the <code>data-user-id</code> attribute with</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;form&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;user-id&quot;</span><span class="p">);</span>
-</code></pre></div>
-
-<p>Updating <code>data-</code> attributes can be done in a similar fashion:</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;form&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;user-id&quot;</span><span class="p">,</span> <span class="s2">&quot;new-user-id&quot;</span><span class="p">);</span>
-</code></pre></div>
-
-<p>However, if you try to inspect the element that you have just updated its <code>data-</code> attribute, you might notice that the old value is still there. In this case, <code>data-user-id</code> is still <code>12345</code> instead of <code>new-user-id</code>. It turns out that jQuery do not update <code>data-</code> attributes directly, instead, the new or updated value is stored in a cache variable and is associated with the DOM of the said element. To verify this, use the developer’s console and set then retrieve the <code>data-</code> attribute.</p>
-
-<div class="highlight"><pre><code class="html"><span class="c">&lt;!-- Insert this part in a HTML file --&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;demo-div&quot;</span> <span class="na">data-number=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-</code></pre></div>
-
-<p>and enter these into the console, one line after the other</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">);</span> <span class="c1">//You should get 1</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">//Check the HTML after entering this line to verify that data-number still appears to be 1</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">);</span> <span class="c1">//You should get 2</span>
-</code></pre></div>
-
-<p>So what is the impact of the way jQuery is handling <code>data-</code> attributes? First of all, you <em>cannot</em> access updated <code>data-</code> attribute using non-jQuery JavaScript. Continuing the previous example,</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">//Just to make sure it is re-updated using jQuery</span>
-<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;demo-div&quot;</span><span class="p">).</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">number</span><span class="p">;</span> <span class="c1">//You will still get 1</span>
-</code></pre></div>
-
-<p>But the other way works, that it, jQuery can access <code>data-</code> attributes updated by non-jQuery JavaScript.</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">//Re-update with jQuery</span>
-<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;demo-div&quot;</span><span class="p">).</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">number</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//Update with non-jQuery JavaScript</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">);</span> <span class="c1">//Expect 3</span>
-</code></pre></div>
-
-<p>By using the jQuery <code>.data()</code> method, you can set any <code>data-</code> attributes to almost anything, including arrays and objects:</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;another&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">hello</span><span class="o">:</span> <span class="s2">&quot;World&quot;</span> <span class="p">});</span>
-</code></pre></div>
-
-<p>In <em>most</em> cases, the behavior of jQuery shouldn’t be a very big issue. In case it really is, just remember that there is the faithful <code>.attr()</code> method.</p>
-
-<div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div#demo-div&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;data-number&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">//Verify that HTML is being updated also</span>
-<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;demo-div&quot;</span><span class="p">).</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">number</span><span class="p">;</span> <span class="c1">//Expect 10</span>
-</code></pre></div>
-
-
-<div style="text-align:center;"><p><div data-role="spritzer"></div></p></div>
-<hr />
-<footer role="contentinfo">
-<div class="article-author-bottom">
-<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
-<h3>Yihang Ho</h3>
-<p>Coder</p>
-<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
-<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
-<a href="https://plus.google.com/+YihangHo/" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
-
-
-<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
-
-
-<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
-
-</div>
-<p class="byline"><strong>Data attribute with JavaScript and jQuery</strong> was published on <time datetime="2013-08-18T00:00:00+08:00" itemprop="datePublished">August 18, 2013</time> and last modified on <time datetime="2013-11-05" itemprop="dateModified">November 05, 2013</time> by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="http://www.yihangho.com/about" title="About Yihang Ho" itemprop="url">Yihang Ho</a></span></span>.</p>
-</footer>
-</div><!-- /.article-wrap -->
-</article>
-</div><!-- /#main -->
-
-<div class="footer-wrap">
-<div class="related-articles">
-<h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/articles">View all articles</a>)</small></h4>
-<ul>
-
-<li><a href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell" title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li>
-
-<li><a href="http://www.yihangho.com/cakephp-json-and-xml-response-explained" title="CakePHP - JSON and XML response explained">CakePHP - JSON and XML response explained</a></li>
-
-<li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li>
-
-</ul>
-<hr />
-</div><!-- /.related-articles -->
-<footer>
-<span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span>
-
-</footer>
-</div><!-- /.footer-wrap -->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
-<!-- Spritz -->
-<script>
-  window.jQuery || document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">\x3C/script>');
+<!DOCTYPE html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Data attribute with JavaScript and jQuery &#8211; I am Yihang</title><meta name=description content="Acessing data attributes with JavaScript and jQuery"><meta name=keywords content="Web development, JavaScript, jQuery, HTML5"><meta name=twitter:card content=summary><meta name=twitter:image content="http://www.yihangho.com/images/"><meta name=twitter:title content="Data attribute with JavaScript and jQuery"><meta name=twitter:description content="Acessing data attributes with JavaScript and jQuery"><meta name=twitter:creator content=@yihang5><meta property=og:locale content=en_US><meta property=og:type content=article><meta property=og:title content="Data attribute with JavaScript and jQuery"><meta property=og:description content="Acessing data attributes with JavaScript and jQuery"><meta property=og:url content=http://www.yihangho.com/data-attribute-with-javascript-and-jquery><meta property=og:site_name content="I am Yihang"><link rel=canonical href=http://www.yihangho.com/data-attribute-with-javascript-and-jquery><link href=http://www.yihangho.com/feed.xml type=application/atom+xml rel=alternate title="I am Yihang Feed"><link rel=author href="https://plus.google.com/+YihangHo/?rel=author"><meta name=HandheldFriendly content=True><meta name=MobileOptimized content=320><meta name=viewport content="width=device-width, initial-scale=1.0"><link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic" rel=stylesheet><link rel=stylesheet href=http://www.yihangho.com/assets/css/main.min.css><!--[if (lt IE 9) & (!IEMobile)]><link rel="stylesheet" href="http://www.yihangho.com/assets/css/ie.min.css"><![endif]--><meta http-equiv=cleartype content=on><script src=http://www.yihangho.com/assets/js/vendor/modernizr-2.6.2.custom.min.js></script><body class=article itemscope itemtype=http://schema.org/WebPage><!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]--><div class=navigation-wrapper><div class=site-name><a href=http://www.yihangho.com>I am Yihang</a></div><div class=top-navigation><nav role=navigation itemscope itemtype=http://schema.org/SiteNavigationElement><ul><li><a href=http://www.yihangho.com/about>About</a></li><li><a href=http://www.yihangho.com/articles>Articles</a></li><li><a href=http://www.yihangho.com/apps>Apps</a></li><li><i class=icon-feed></i> <a href=http://www.yihangho.com/feed.xml title="Atom/RSS feed">Feed</a></li></ul></nav></div></div><div id=main role=main itemprop=mainContentOfPage itemscope itemtype=http://schema.org/Blog><div class=article-author-top><img src=http://www.yihangho.com/images/bio-photo.jpg class=bio-photo alt="Yihang Ho bio photo"><h3>Yihang Ho</h3><p>Coder</p><a href=http://twitter.com/yihang5 class=author-social target=_blank><i class=icon-twitter></i> Twitter</a> <a href=http://facebook.com/yihangho class=author-social target=_blank><i class=icon-facebook></i> Facebook</a> <a href="https://plus.google.com/+YihangHo/" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a> <a href=http://github.com/yihangho class=author-social target=_blank><i class=icon-github></i> Github</a> <a href=mailto:me@yihangho.com class=author-social target=_blank><i class=icon-mail></i> Email</a></div><article itemscope itemtype=http://schema.org/BlogPosting itemprop=blogPost><div class=headline-wrap><h1 itemprop=name>Data attribute with JavaScript and jQuery</h1><h2></h2></div><div class=article-wrap itemprop=text><p>One thing from HTML5 that fascinates me a lot is the <code>data-</code> attribute. It helps eliminating some clumsiness that happen before HTML5 especially when writing a single-page application. For example, sometimes we need to use a hidden input to store some temporary states. Those data can be stored in the <code>data-</code> attribute.</p><div class=highlight><pre><code class=html><span class=nt>&lt;form&gt;</span>
+    <span class=nt>&lt;input</span> <span class=na>type=</span><span class=s>&quot;hidden&quot;</span> <span class=na>name=</span><span class=s>&quot;user-id&quot;</span> <span class=na>value=</span><span class=s>&quot;12345&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;input</span> <span class=na>type=</span><span class=s>&quot;text&quot;</span> <span class=na>name=</span><span class=s>&quot;fname&quot;</span><span class=nt>&gt;</span>
+<span class=nt>&lt;/form&gt;</span>
+</code></pre></div><p>can be replaced with</p><div class=highlight><pre><code class=html><span class=nt>&lt;form</span> <span class=na>data-user-id=</span><span class=s>&quot;12345&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;input</span> <span class=na>type=</span><span class=s>&quot;text&quot;</span> <span class=na>name=</span><span class=s>&quot;fname&quot;</span><span class=nt>&gt;</span>
+<span class=nt>&lt;/form&gt;</span>
+</code></pre></div><p>Another advantage of <code>data-</code> attribute is the ability to write unobtrusive JavaScript. If you have seen the HTML code generated by Ruby on Rails, you will understand. Suppose you want to show the user a confirmation box after the user clicked on a link. Without the <code>data-</code> attribute, we have to do this</p><div class=highlight><pre><code class=html><span class=nt>&lt;a</span> <span class=na>href=</span><span class=s>&quot;http://www.example.com&quot;</span> <span class=na>onclick=</span><span class=s>&quot;return confirm(&#39;Are you sure?&#39;);&quot;</span><span class=nt>&gt;</span>Click me!<span class=nt>&lt;/a&gt;</span>
+</code></pre></div><p>which is kind of not nice as we have to inline some JavaScript code. With <code>data-</code> attribute, however, we can do this</p><div class=highlight><pre><code class=html><span class=c>&lt;!-- index.html --&gt;</span>
+<span class=nt>&lt;a</span> <span class=na>href=</span><span class=s>&quot;http://www.example.com&quot;</span> <span class=na>data-confirmation=</span><span class=s>&quot;Are you sure?&quot;</span><span class=nt>&gt;</span>Click me!<span class=nt>&lt;/a&gt;</span>
+<span class=nt>&lt;script </span><span class=na>src=</span><span class=s>&quot;script.js&quot;</span><span class=nt>&gt;&lt;/script&gt;</span>
+</code></pre></div><div class=highlight><pre><code class=javascript><span class=c1>// script.js</span>
+<span class=kd>var</span> <span class=nx>anchors</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementsByTagName</span><span class=p>(</span><span class=s2>&quot;a&quot;</span><span class=p>);</span>
+<span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>anchors</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+    <span class=nx>anchors</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>onclick</span> <span class=o>=</span> <span class=nx>anchorOnClickListener</span><span class=p>;</span>
+<span class=p>}</span>
+<span class=kd>function</span> <span class=nx>anchorOnClickListener</span><span class=p>()</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>dataset</span><span class=p>.</span><span class=nx>confirmation</span> <span class=o>?</span> <span class=nx>confirm</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>dataset</span><span class=p>.</span><span class=nx>confirmation</span><span class=p>)</span> <span class=o>:</span> <span class=kc>true</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>As we can see, although the second method results in a much longer code, we will also enjoy all the benefits that come with writing obtrusive JavaScript.</p><p>Our beloved jQuery, as expected, handles <code>data-</code> attributes gracefully. There is a dedicated method to do this - <a href="http://api.jquery.com/data/"><code>.data()</code></a>. In the first example, we can retrieve the <code>data-user-id</code> attribute with</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;form&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;user-id&quot;</span><span class=p>);</span>
+</code></pre></div><p>Updating <code>data-</code> attributes can be done in a similar fashion:</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;form&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;user-id&quot;</span><span class=p>,</span> <span class=s2>&quot;new-user-id&quot;</span><span class=p>);</span>
+</code></pre></div><p>However, if you try to inspect the element that you have just updated its <code>data-</code> attribute, you might notice that the old value is still there. In this case, <code>data-user-id</code> is still <code>12345</code> instead of <code>new-user-id</code>. It turns out that jQuery do not update <code>data-</code> attributes directly, instead, the new or updated value is stored in a cache variable and is associated with the DOM of the said element. To verify this, use the developer’s console and set then retrieve the <code>data-</code> attribute.</p><div class=highlight><pre><code class=html><span class=c>&lt;!-- Insert this part in a HTML file --&gt;</span>
+<span class=nt>&lt;div</span> <span class=na>id=</span><span class=s>&quot;demo-div&quot;</span> <span class=na>data-number=</span><span class=s>&quot;1&quot;</span><span class=nt>&gt;&lt;/div&gt;</span>
+</code></pre></div><p>and enter these into the console, one line after the other</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>);</span> <span class=c1>//You should get 1</span>
+<span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span> <span class=c1>//Check the HTML after entering this line to verify that data-number still appears to be 1</span>
+<span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>);</span> <span class=c1>//You should get 2</span>
+</code></pre></div><p>So what is the impact of the way jQuery is handling <code>data-</code> attributes? First of all, you <em>cannot</em> access updated <code>data-</code> attribute using non-jQuery JavaScript. Continuing the previous example,</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span> <span class=c1>//Just to make sure it is re-updated using jQuery</span>
+<span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&quot;demo-div&quot;</span><span class=p>).</span><span class=nx>dataset</span><span class=p>.</span><span class=nx>number</span><span class=p>;</span> <span class=c1>//You will still get 1</span>
+</code></pre></div><p>But the other way works, that it, jQuery can access <code>data-</code> attributes updated by non-jQuery JavaScript.</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span> <span class=c1>//Re-update with jQuery</span>
+<span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&quot;demo-div&quot;</span><span class=p>).</span><span class=nx>dataset</span><span class=p>.</span><span class=nx>number</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span> <span class=c1>//Update with non-jQuery JavaScript</span>
+<span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;number&quot;</span><span class=p>);</span> <span class=c1>//Expect 3</span>
+</code></pre></div><p>By using the jQuery <code>.data()</code> method, you can set any <code>data-</code> attributes to almost anything, including arrays and objects:</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>data</span><span class=p>(</span><span class=s2>&quot;another&quot;</span><span class=p>,</span> <span class=p>{</span> <span class=nx>hello</span><span class=o>:</span> <span class=s2>&quot;World&quot;</span> <span class=p>});</span>
+</code></pre></div><p>In <em>most</em> cases, the behavior of jQuery shouldn’t be a very big issue. In case it really is, just remember that there is the faithful <code>.attr()</code> method.</p><div class=highlight><pre><code class=javascript><span class=nx>$</span><span class=p>(</span><span class=s2>&quot;div#demo-div&quot;</span><span class=p>).</span><span class=nx>attr</span><span class=p>(</span><span class=s2>&quot;data-number&quot;</span><span class=p>,</span> <span class=mi>10</span><span class=p>);</span> <span class=c1>//Verify that HTML is being updated also</span>
+<span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&quot;demo-div&quot;</span><span class=p>).</span><span class=nx>dataset</span><span class=p>.</span><span class=nx>number</span><span class=p>;</span> <span class=c1>//Expect 10</span>
+</code></pre></div><div style=text-align:center><p><div data-role=spritzer></div></p></div><hr><footer role=contentinfo><div class=article-author-bottom><img src=http://www.yihangho.com/images/bio-photo.jpg class=bio-photo alt="Yihang Ho bio photo"><h3>Yihang Ho</h3><p>Coder</p><a href=http://twitter.com/yihang5 class=author-social target=_blank><i class=icon-twitter></i> Twitter</a> <a href=http://facebook.com/yihangho class=author-social target=_blank><i class=icon-facebook></i> Facebook</a> <a href="https://plus.google.com/+YihangHo/" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a> <a href=http://github.com/yihangho class=author-social target=_blank><i class=icon-github></i> Github</a> <a href=mailto:me@yihangho.com class=author-social target=_blank><i class=icon-mail></i> Email</a></div><p class=byline><strong>Data attribute with JavaScript and jQuery</strong> was published on <time datetime=2013-08-18T00:00:00+08:00 itemprop=datePublished>August 18, 2013</time> and last modified on <time datetime=2013-11-05 itemprop=dateModified>November 05, 2013</time> by <span itemprop=author itemscope itemtype=http://schema.org/Person><span itemprop=name><a href=http://www.yihangho.com/about title="About Yihang Ho" itemprop=url>Yihang Ho</a></span></span>.</p></footer></div></article></div><div class=footer-wrap><div class=related-articles><h4>You might also enjoy <small class=pull-right>(<a href=http://www.yihangho.com/articles>View all articles</a>)</small></h4><ul><li><a href=http://www.yihangho.com/chrome-extension-development-in-a-nutshell title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li><li><a href=http://www.yihangho.com/cakephp-json-and-xml-response-explained title="CakePHP - JSON and XML response explained">CakePHP - JSON and XML response explained</a></li><li><a href=http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li></ul><hr></div><footer><span>&copy; 2014 Yihang Ho. Powered by <a href=http://jekyllrb.com>Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js></script><script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.11.0.min.js"><\/script>')</script><script src=http://www.yihangho.com/assets/js/scripts.min.js></script><script>window.jQuery || document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">\x3C/script>');
   var SpritzSettings = {
     clientId: "1e621458778214a7c",
     redirectUri: "http://www.yihangho.com/login_success.html"
-  };
-</script>
-<script id="spritzjs" type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
-
-
-<!-- Piwik Analytics -->
-<!-- Piwik -->
-<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
-<!-- End Piwik Code -->
-
-
-</body>
-</html>
+  };</script><script id=spritzjs src=//sdk.spritzinc.com/js/1.0/js/spritz.min.js></script><script>var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
