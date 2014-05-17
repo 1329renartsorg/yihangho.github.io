@@ -5,13 +5,53 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-04-25T11:39:26+08:00</updated>
+<updated>2014-05-17T22:52:52+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Bézier]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/bezier" />
+  <id>http://www.yihangho.com/bezier</id>
+  <published>2014-05-17T00:00:00+08:00</published>
+  <updated>2014-05-17T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;A few days back, I published a Ruby gem, &lt;a href=&quot;https://github.com/yihangho/bezier&quot;&gt;Bezier&lt;/a&gt;. Bezier is a library that can draw Bézier curves and produce PNG (thanks for &lt;a href=&quot;https://github.com/wvanbergen/chunky_png&quot;&gt;ChunkyPNG&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Using Bezier is super simple. First, install it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gem install bezier
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;then do some magic with your Ruby script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;require &#39;bezier&#39;
+
+# Create some control points
+control_points = [[20, 20], [20, 100], [200, 100], [200, 20]].map do |coord|
+  Bezier::Point.new *coord
+end
+
+# Create a Bézier curve using those control points
+bezier = Bezier::Bezier.new *control_points
+
+# Produce the PNG at Bézier.png
+Bezier::Painter.new { |p| p.points = bezier.run }.save
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Do try it out!&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/bezier&quot;&gt;Bézier&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on May 17, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -100,11 +140,10 @@
 &lt;h2 id=&quot;create-an-app&quot;&gt;Create an app&lt;/h2&gt;
 &lt;p&gt;Ruboto comes with a code generator. Run&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-ruboto gen app --package com.example.test --name test --target android-19
+&lt;pre&gt;&lt;code&gt;ruboto gen app --package com.example.test --name test --target android-19
 cd test
 rake
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Running &lt;code&gt;rake&lt;/code&gt; will build the APK file, which will be located in &lt;code&gt;bin/Test-debug.apk&lt;/code&gt;. If you have configured a virtual device, or have connected an Android device to your machine, you can run &lt;code&gt;rake install&lt;/code&gt; to install the app.&lt;/p&gt;
 
@@ -139,8 +178,9 @@ rake
   &lt;li&gt;Install the emoji_for_jekyll gem:&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre&gt;&lt;code&gt;    gem install emoji_for_jekyll
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;bash
+  gem install emoji_for_jekyll
+ &lt;/code&gt;&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -151,8 +191,9 @@ rake
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;gems&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p-Indicator&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;emoji_for_jekyll&amp;#39;&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;yaml
+  gems: [&#39;emoji_for_jekyll&#39;]
+ &lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;All the existing APIs are still working. You can go ahead and include something like &lt;code&gt;:laughing:&lt;/code&gt; in your posts and expect beautiful emojis! &lt;img class=&quot;emoji&quot; title=&quot;smile&quot; alt=&quot;smile&quot; src=&quot;https://github.global.ssl.fastly.net/images/icons/emoji/smile.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot; /&gt;&lt;/p&gt;
 
@@ -554,11 +595,13 @@ rake
   &lt;li&gt;Also, there is a suggested snippet to set up virtual host for rail projects. I did that to, and the virtual host serves a dummy application just created by &lt;code&gt;rails new&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;sudo apachectl restart&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Visit the virtual host. Browser complains that ‘Oops! Google Chrome could not connect to…’ All the existing virtual hosts that were working are not working anymore.&lt;/li&gt;
-  &lt;li&gt;Next I tried &lt;code&gt;httpd -t&lt;/code&gt;. This is the output:&lt;/li&gt;
-&lt;/ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Next I tried &lt;code&gt;httpd -t&lt;/code&gt;. This is the output:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
+    &lt;pre&gt;&lt;code&gt; httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
 &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;I’ve been Googling a lot and nobody else seems to have this problem. Until I tried to use all the default tools - this includes GCC/G++. So what I did was to (temporarily) remove &lt;code&gt;/usr/local/bin&lt;/code&gt; from my &lt;code&gt;PATH&lt;/code&gt; variable (most likely they are set in &lt;code&gt;~/.bashrc&lt;/code&gt;, &lt;code&gt;~/bash_profile&lt;/code&gt; and/or &lt;code&gt;/etc/paths&lt;/code&gt;), which effectively temporarily remove &lt;em&gt;ALL&lt;/em&gt; homebrew installed application. I have to admit that the proper way is to &lt;code&gt;brew unlink gcc48&lt;/code&gt; then &lt;code&gt;brew link gcc48&lt;/code&gt; at the end. After you have done this, just trigger &lt;code&gt;passenger-install-apache2-module&lt;/code&gt; and all should be good. &lt;img class=&quot;emoji&quot; title=&quot;smile&quot; alt=&quot;smile&quot; src=&quot;https://github.global.ssl.fastly.net/images/icons/emoji/smile.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot; /&gt;&lt;/p&gt;
 
@@ -583,72 +626,72 @@ rake
 &lt;h2 id=&quot;making-request&quot;&gt;Making request&lt;/h2&gt;
 &lt;p&gt;A single action can be made to respond the beautiful HTML, and also machine-readable JSON and XML. For example, to access the &lt;code&gt;index&lt;/code&gt; action of the &lt;code&gt;posts&lt;/code&gt; controller, we usually request for &lt;a href=&quot;http://www.example.com/posts/index&quot;&gt;http://www.example.com/posts/index&lt;/a&gt;. To request for the JSON or XML version, simply append &lt;code&gt;.json&lt;/code&gt; or &lt;code&gt;.xml&lt;/code&gt; to the end of the action name. For example, &lt;a href=&quot;http://www.example.com/posts/index.json&quot;&gt;http://www.example.com/posts/index.json&lt;/a&gt; or &lt;a href=&quot;http://www.example.com/posts/index.xml&quot;&gt;http://www.example.com/posts/index.xml&lt;/a&gt;. Besides that, you can also add &lt;code&gt;Accept: application/json&lt;/code&gt; or &lt;code&gt;Accept: application/xml&lt;/code&gt; into the request header with or without appending &lt;code&gt;.json&lt;/code&gt; or &lt;code&gt;.xml&lt;/code&gt; to the action name. This can be simulated using curl:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;curl -H Accept:application/json http://www.example.com/posts/index
-&lt;span class=&quot;c&quot;&gt;# or&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;curl -H Accept:application/json http://www.example.com/posts/index
+# or
 curl -H Accept:application/xml http://www.example.com/posts/index
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;configuration&quot;&gt;Configuration&lt;/h2&gt;
 &lt;p&gt;We need to tell CakePHP and the controllers involved to accept and process JSON and XML request. First, add&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;Router::parseExtensions(&amp;#39;json&amp;#39;, &amp;#39;xml&amp;#39;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;Router::parseExtensions(&#39;json&#39;, &#39;xml&#39;);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;into &lt;code&gt;app/Config/routes.php&lt;/code&gt;. Also, inside the class definition of all the controllers involved (for example in &lt;code&gt;app/Controller/PostsController.php&lt;/code&gt;), insert&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;public $components = array(&amp;#39;RequestHandler&amp;#39;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;public $components = array(&#39;RequestHandler&#39;);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In general, there are two ways to ‘tell’ CakePHP how to output the JSON and XML when requested. First method is easier and does not involve another view for JSON and XML; the other does.&lt;/p&gt;
 
 &lt;h2 id=&quot;using-serialize-key&quot;&gt;Using serialize key&lt;/h2&gt;
 &lt;p&gt;Suppose we want to encode the following array into JSON and XML:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$output = array(&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;	&amp;quot;status&amp;quot; =&amp;gt; &amp;quot;OK&amp;quot;,&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;	&amp;quot;message&amp;quot; =&amp;gt; &amp;quot;You are good&amp;quot;,&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;	&amp;quot;content&amp;quot; =&amp;gt; $content&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$output = array(
+	&quot;status&quot; =&amp;gt; &quot;OK&quot;,
+	&quot;message&quot; =&amp;gt; &quot;You are good&quot;,
+	&quot;content&quot; =&amp;gt; $content
+);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We need to first &lt;code&gt;set()&lt;/code&gt; all the keys in the array:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;status&amp;quot;, &amp;quot;OK&amp;quot;);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;message&amp;quot;, &amp;quot;You are good&amp;quot;);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;content&amp;quot;, $content);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;// Can also set() other variables that might not be used in the JSON or XML string&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;other&amp;quot;, &amp;quot;something&amp;quot;);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;stuff&amp;quot;, &amp;quot;else&amp;quot;);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;// or simply&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set($output);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$this-&amp;gt;set(&quot;status&quot;, &quot;OK&quot;);
+$this-&amp;gt;set(&quot;message&quot;, &quot;You are good&quot;);
+$this-&amp;gt;set(&quot;content&quot;, $content);
+// Can also set() other variables that might not be used in the JSON or XML string
+$this-&amp;gt;set(&quot;other&quot;, &quot;something&quot;);
+$this-&amp;gt;set(&quot;stuff&quot;, &quot;else&quot;);
+// or simply
+$this-&amp;gt;set($output);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and then tell CakePHP which keys should appear in the output array:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;set(&amp;quot;_serialize&amp;quot;, array(&amp;quot;status&amp;quot;, &amp;quot;message&amp;quot;, &amp;quot;content&amp;quot;));&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$this-&amp;gt;set(&quot;_serialize&quot;, array(&quot;status&quot;, &quot;message&quot;, &quot;content&quot;));
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Notice that other variables set with &lt;code&gt;set()&lt;/code&gt; method will not appear in the JSON or XML output unless they are inside &lt;code&gt;_serialize&lt;/code&gt;d array. Now, if you visit &lt;code&gt;index.json&lt;/code&gt; or &lt;code&gt;index.xml&lt;/code&gt; you can see the output equivalent to &lt;code&gt;json_encode($output, JSON_PRETTY_PRINT);&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;using-views&quot;&gt;Using views&lt;/h2&gt;
 &lt;p&gt;I guess for most of the time, the method that does not involve a view should be sufficient. Other times, for example, if you want some data to appear in the HTML version, but not on the JSON and XML version, you might do the necessary data processing in the view. The views for JSON and XML are defined in &lt;code&gt;app/Views/&amp;lt;controller name&amp;gt;/&amp;lt;json or xml&amp;gt;/&amp;lt;action name&amp;gt;.ctp&lt;/code&gt;. For example, &lt;code&gt;app/Views/Posts/json/index.ctp&lt;/code&gt;. To enable the views for JSON and XML, you &lt;em&gt;have&lt;/em&gt; to &lt;strong&gt;disable&lt;/strong&gt; &lt;code&gt;$this-&amp;gt;set(&quot;_serialize&quot;, array(...));&lt;/code&gt;. Also, the view &lt;strong&gt;must&lt;/strong&gt; generate a &lt;strong&gt;valid&lt;/strong&gt; JSON or XML string, or else CakePHP will throw an error.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;// app/Controller/PostsController.php&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;public function index() {&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;	$this-&amp;gt;set(&amp;#39;posts&amp;#39;, $this-&amp;gt;Post-&amp;gt;find(&amp;#39;all&amp;#39;));&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;// app/Controller/PostsController.php
+public function index() {
+	$this-&amp;gt;set(&#39;posts&#39;, $this-&amp;gt;Post-&amp;gt;find(&#39;all&#39;));
+}
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;// app/Views/Posts/json/index.ctp&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$posts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;unset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$posts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Post&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;created&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;unset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$posts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Post&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;modified&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;json_encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$posts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;// app/Views/Posts/json/index.ctp
+&amp;lt;?php
+for ($i=0; $i&amp;lt;count($posts); $i++)
+{
+    unset($posts[$i][&quot;Post&quot;][&quot;created&quot;]);
+    unset($posts[$i][&quot;Post&quot;][&quot;modified&quot;]);
+}
+json_encode($posts);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;example-code&quot;&gt;Example code&lt;/h2&gt;
 &lt;p&gt;I have prepared a piece of example code as a continuation of the blog tutorial. The code is available &lt;a href=&quot;https://github.com/yihangho/cakephp-json-xml-response&quot;&gt;here&lt;/a&gt;. You may &lt;code&gt;git checkout no-view&lt;/code&gt; or &lt;code&gt;git checkout custom-view&lt;/code&gt; to see the actual code for the serialize key method and custom view method.&lt;/p&gt;
@@ -717,90 +760,89 @@ back to your user account.
   </author>
   <content type="html">&lt;p&gt;One thing from HTML5 that fascinates me a lot is the &lt;code&gt;data-&lt;/code&gt; attribute. It helps eliminating some clumsiness that happen before HTML5 especially when writing a single-page application. For example, sometimes we need to use a hidden input to store some temporary states. Those data can be stored in the &lt;code&gt;data-&lt;/code&gt; attribute.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hidden&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;user-id&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;12345&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;fname&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;form&amp;gt;
+    &amp;lt;input type=&quot;hidden&quot; name=&quot;user-id&quot; value=&quot;12345&quot;&amp;gt;
+    &amp;lt;input type=&quot;text&quot; name=&quot;fname&quot;&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;can be replaced with&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-user-id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;12345&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;fname&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;form data-user-id=&quot;12345&quot;&amp;gt;
+    &amp;lt;input type=&quot;text&quot; name=&quot;fname&quot;&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Another advantage of &lt;code&gt;data-&lt;/code&gt; attribute is the ability to write unobtrusive JavaScript. If you have seen the HTML code generated by Ruby on Rails, you will understand. Suppose you want to show the user a confirmation box after the user clicked on a link. Without the &lt;code&gt;data-&lt;/code&gt; attribute, we have to do this&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://www.example.com&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;onclick=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;return confirm(&amp;#39;Are you sure?&amp;#39;);&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Click me!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;a href=&quot;http://www.example.com&quot; onclick=&quot;return confirm(&#39;Are you sure?&#39;);&quot;&amp;gt;Click me!&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;which is kind of not nice as we have to inline some JavaScript code. With &lt;code&gt;data-&lt;/code&gt; attribute, however, we can do this&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- index.html --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://www.example.com&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-confirmation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Are you sure?&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Click me!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;script.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;!-- index.html --&amp;gt;
+&amp;lt;a href=&quot;http://www.example.com&quot; data-confirmation=&quot;Are you sure?&quot;&amp;gt;Click me!&amp;lt;/a&amp;gt;
+&amp;lt;script src=&quot;script.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// script.js&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anchors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementsByTagName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anchors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;anchors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onclick&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anchorOnClickListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anchorOnClickListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;confirmation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;confirm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;confirmation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// script.js
+var anchors = document.getElementsByTagName(&quot;a&quot;);
+for (var i = 0; i &amp;lt; anchors.length; i++) {
+    anchors[i].onclick = anchorOnClickListener;
+}
+function anchorOnClickListener() {
+    return this.dataset.confirmation ? confirm(this.dataset.confirmation) : true;
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;As we can see, although the second method results in a much longer code, we will also enjoy all the benefits that come with writing obtrusive JavaScript.&lt;/p&gt;
 
 &lt;p&gt;Our beloved jQuery, as expected, handles &lt;code&gt;data-&lt;/code&gt; attributes gracefully. There is a dedicated method to do this - &lt;a href=&quot;http://api.jquery.com/data/&quot;&gt;&lt;code&gt;.data()&lt;/code&gt;&lt;/a&gt;. In the first example, we can retrieve the &lt;code&gt;data-user-id&lt;/code&gt; attribute with&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;form&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;user-id&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;form&quot;).data(&quot;user-id&quot;);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Updating &lt;code&gt;data-&lt;/code&gt; attributes can be done in a similar fashion:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;form&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;user-id&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;new-user-id&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;form&quot;).data(&quot;user-id&quot;, &quot;new-user-id&quot;);
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;However, if you try to inspect the element that you have just updated its &lt;code&gt;data-&lt;/code&gt; attribute, you might notice that the old value is still there. In this case, &lt;code&gt;data-user-id&lt;/code&gt; is still &lt;code&gt;12345&lt;/code&gt; instead of &lt;code&gt;new-user-id&lt;/code&gt;. It turns out that jQuery do not update &lt;code&gt;data-&lt;/code&gt; attributes directly, instead, the new or updated value is stored in a cache variable and is associated with the DOM of the said element. To verify this, use the developer’s console and set then retrieve the &lt;code&gt;data-&lt;/code&gt; attribute.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Insert this part in a HTML file --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;demo-div&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-number=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;!-- Insert this part in a HTML file --&amp;gt;
+&amp;lt;div id=&quot;demo-div&quot; data-number=&quot;1&quot;&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and enter these into the console, one line after the other&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//You should get 1&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Check the HTML after entering this line to verify that data-number still appears to be 1&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//You should get 2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;div#demo-div&quot;).data(&quot;number&quot;); //You should get 1
+$(&quot;div#demo-div&quot;).data(&quot;number&quot;, 2); //Check the HTML after entering this line to verify that data-number still appears to be 1
+$(&quot;div#demo-div&quot;).data(&quot;number&quot;); //You should get 2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;So what is the impact of the way jQuery is handling &lt;code&gt;data-&lt;/code&gt; attributes? First of all, you &lt;em&gt;cannot&lt;/em&gt; access updated &lt;code&gt;data-&lt;/code&gt; attribute using non-jQuery JavaScript. Continuing the previous example,&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Just to make sure it is re-updated using jQuery&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//You will still get 1&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;div#demo-div&quot;).data(&quot;number&quot;, 2); //Just to make sure it is re-updated using jQuery
+document.getElementById(&quot;demo-div&quot;).dataset.number; //You will still get 1
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;But the other way works, that it, jQuery can access &lt;code&gt;data-&lt;/code&gt; attributes updated by non-jQuery JavaScript.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Re-update with jQuery&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Update with non-jQuery JavaScript&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Expect 3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;div#demo-div&quot;).data(&quot;number&quot;, 2); //Re-update with jQuery
+document.getElementById(&quot;demo-div&quot;).dataset.number = 3; //Update with non-jQuery JavaScript
+$(&quot;div#demo-div&quot;).data(&quot;number&quot;); //Expect 3
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;By using the jQuery &lt;code&gt;.data()&lt;/code&gt; method, you can set any &lt;code&gt;data-&lt;/code&gt; attributes to almost anything, including arrays and objects:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;another&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;World&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;div#demo-div&quot;).data(&quot;another&quot;, { hello: &quot;World&quot; });
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In &lt;em&gt;most&lt;/em&gt; cases, the behavior of jQuery shouldn’t be a very big issue. In case it really is, just remember that there is the faithful &lt;code&gt;.attr()&lt;/code&gt; method.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;div#demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;data-number&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Verify that HTML is being updated also&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;demo-div&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Expect 10&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;$(&quot;div#demo-div&quot;).attr(&quot;data-number&quot;, 10); //Verify that HTML is being updated also
+document.getElementById(&quot;demo-div&quot;).dataset.number; //Expect 10
+&lt;/code&gt;&lt;/pre&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/data-attribute-with-javascript-and-jquery&quot;&gt;Data attribute with JavaScript and jQuery&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 18, 2013.&lt;/p&gt;</content>
 </entry>
@@ -873,24 +915,24 @@ RewriteRule ^$ http://www.example.com/redirect.php
 
 &lt;p&gt;Next, we need to prepare &lt;code&gt;redirect.php&lt;/code&gt; to redirect the user to the correct location.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//$redirect_map should contain all the new permalinks such that&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//$redirect_map[old_perma] = new_perma&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$redirect_map&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-	&lt;span class=&quot;mi&quot;&gt;123&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://www.example.com/new-blog-post&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-	&lt;span class=&quot;mi&quot;&gt;456&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://www.example.com/another-new-post&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;array_key_exists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;p&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;array_key_exists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;p&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$redirect_map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-		&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Location: &amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$redirect_map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;p&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-		&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Location: http://www.example.com/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-	&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Location: http://www.example.com/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
+//$redirect_map should contain all the new permalinks such that
+//$redirect_map[old_perma] = new_perma
+$redirect_map = array(
+	123 =&amp;gt; &quot;http://www.example.com/new-blog-post&quot;,
+	456 =&amp;gt; &quot;http://www.example.com/another-new-post&quot;
+);
+if (array_key_exists(&quot;p&quot;, $_GET))
+{
+	if (array_key_exists($_GET[&quot;p&quot;], $redirect_map))
+		header(&quot;Location: &quot;.$redirect_map[$_GET[&quot;p&quot;]], true, 301);
+	else
+		header(&quot;Location: http://www.example.com/&quot;, true, 301);
+}
+else
+	header(&quot;Location: http://www.example.com/&quot;, true, 301);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Remember to add all the permalinks into &lt;code&gt;$redirect_map&lt;/code&gt;.&lt;/p&gt;
 
@@ -920,37 +962,6 @@ RewriteRule ^$ http://www.example.com/redirect.php
 &lt;p&gt;By using just a few words, I think I love web development due to its potential, especially in the era where people own several devices and cloud and web is the only way to connect each of these devices.&lt;/p&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/why-is-web-development-cool&quot;&gt;Why is web development cool&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 28, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Jekyll]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/jekyll" />
-  <id>http://www.yihangho.com/jekyll</id>
-  <updated>2013-11-05T00:00:00-00:00</updated>
-  <published>2013-07-27T00:00:00+08:00</published>
-  
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;You might or might not have noticed that this blog is somehow changed. That is right, I’ve switch from WordPress to &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;. One of the many reasons that I decide to switch to Jekyll is that I can blog in Markdown using Jekyll. Of course, there &lt;em&gt;must&lt;/em&gt; be some plugins available for WordPress that allows me to write in Markdown, but the hacker inside me is shouting - WordPress just doesn’t suit me.&lt;/p&gt;
-
-&lt;p&gt;To those who don’t know what Jekyll is, Jekyll is a (according to their website) simple, blog-aware static site generator. In other words, each and every single page consists of only HTML - there is no PHP or Rails or anything like that to generate HTML content when requested. Jekyll’s role is to compile the entire site according to the rules and templates that I have provided. The web server serving sites generated by Jekyll can be very minimal as there is no server side processing at all.&lt;/p&gt;
-
-&lt;p&gt;At first, I thought thought that the generated site will be quite large - considering the repetition in the template. Quite surprisingly, the generated site is &lt;em&gt;very&lt;/em&gt; small. Before I wrote this post, I’ve migrated almost all the posts from WordPress, and using the same theme that I was using in WordPress, except ported over for Jekyll. The entire site is only about 160KB. Compared to WordPress, the compressed tarball is almost 5MB, then there are the contents stored in database.&lt;/p&gt;
-
-&lt;p&gt;For a developer’s point of view, designing a theme (the proper term should be template) for Jekyll is extremely easy. The easy yet powerful APIs provided allows me to port the theme that I was using in under 2 hours.&lt;/p&gt;
-
-&lt;p&gt;If you are curious how I configured Jekyll for this site, I am using &lt;a href=&quot;https://github.com/bhollis/maruku&quot;&gt;Maruku&lt;/a&gt; as the Markdown interpreter, installed a customized version of &lt;a href=&quot;https://github.com/chriskempson/jekyll-emoji&quot;&gt;Jekyll Emoji&lt;/a&gt; and the template is &lt;a href=&quot;https://github.com/yihangho/mog-jekyll-port&quot;&gt;Mog for Jekyll&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, enjoy the very first post that I have ever written in Markdown. More to come.&lt;/p&gt;
-
-&lt;h2 id=&quot;update&quot;&gt;Update&lt;/h2&gt;
-&lt;p&gt;Now I am using &lt;a href=&quot;http://kramdown.rubyforge.org/&quot;&gt;Kramdown&lt;/a&gt; as the Markdown interpreter, and the template is &lt;a href=&quot;https://github.com/mmistakes/minimal-mistakes&quot;&gt;Minimal Mistakes&lt;/a&gt;.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/jekyll&quot;&gt;Jekyll&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on July 27, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
