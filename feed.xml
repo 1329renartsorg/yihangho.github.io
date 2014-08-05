@@ -4,13 +4,32 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-05-23T21:27:27+08:00</updated>
+<updated>2014-08-06T01:04:53+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[AngularJS modules on Google Hosted Libraries]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/" />
+  <id>http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries</id>
+  <published>2014-08-06T00:00:00+08:00</published>
+  <updated>2014-08-06T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;You can access AngularJS modules (like the &lt;code&gt;$route&lt;/code&gt; module) on Google Hosted Libraries (a.k.a. Google CDN) by replacing &lt;code&gt;angular.min.js&lt;/code&gt; with &lt;code&gt;angular-[module name].min.js&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, &lt;code&gt;https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-route.min.js&lt;/code&gt; will load the source for the &lt;code&gt;$route&lt;/code&gt; module.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/&quot;&gt;AngularJS modules on Google Hosted Libraries&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 06, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -971,72 +990,6 @@ back to your user account.
 &lt;p&gt;Koding is supposed to be the most powerful IDE among the IDEs that I am reviewing. However, the overall experience is not excellent. Somehow the whole UI is not very responsive and the VM disconnects quite frequently.&lt;/p&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/cloud-ide-iii-koding/&quot;&gt;Cloud IDE III - Koding&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 05, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Migrating from WordPress to Jekyll]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/migrating-from-wordpress-to-jekyll/" />
-  <id>http://www.yihangho.com/migrating-from-wordpress-to-jekyll</id>
-  <published>2013-08-01T00:00:00+08:00</published>
-  <updated>2013-08-01T00:00:00+08:00</updated>
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;Migrating from WordPress to Jekyll is not hard. There is a &lt;a href=&quot;http://jekyllrb.com/docs/migrations/&quot;&gt;guide&lt;/a&gt; on Jekyll’s official site that describe how to migrate not only from WordPress, but also other platforms. The biggest problem that I have is on redirecting old permalinks to the new one.&lt;/p&gt;
-
-&lt;p&gt;Generally, there are 5 types of permalinks that can be set in WordPress, they are in the form of&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;http://www.example.com/?p=123&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;http://www.example.com/2013/10/12/a-blog-post&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;http://www.example.com/2013/10/a-blog-post&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;http://www.example.com/123&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;http://www.example.com/a-blog-post&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;From what I observe, the last 4 types are quite easy to handle - just specify the old permalink and the new permalink in &lt;code&gt;.htaccess&lt;/code&gt; to issue a 301 redirection. For example, suppose the old permalink is &lt;code&gt;http://www.example.com/a-blog-post&lt;/code&gt; (the fourth type), and the new permalink is &lt;code&gt;http://www.example.com/new-blog-post&lt;/code&gt;, insert the following to &lt;code&gt;.htaccess&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Redirect 301 /a-blog-post http://www.example.com/new-blog-post
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;However, this method does not work on the first type. I resort to a combination of mod_rewrite and PHP. The general strategy is to capture all URL in the form of &lt;code&gt;http://www.example.com/?p=123&lt;/code&gt; and rewrite it to a PHP file, and this PHP file will, depends on the value of &lt;code&gt;p&lt;/code&gt;, redirect the user to the new permalink.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;RewriteCond %{QUERY_STRING} ^(?!\s*$).+
-RewriteRule ^$ http://www.example.com/redirect.php
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The first line basically means that there must be something in the query string in order to continue, and the next line means that if the path is empty, then load &lt;code&gt;http://www.example.com/redirect.php&lt;/code&gt; with all the query string intact. Notice that you might want to alter the regular expressions to capture &lt;em&gt;only&lt;/em&gt; the path in the form of &lt;code&gt;http://www.example.com/?p=123&lt;/code&gt;. I recommend &lt;a href=&quot;http://htaccess.madewithlove.be/&quot;&gt;this&lt;/a&gt; to test your regular expression.&lt;/p&gt;
-
-&lt;p&gt;Next, we need to prepare &lt;code&gt;redirect.php&lt;/code&gt; to redirect the user to the correct location.&lt;/p&gt;
-
-&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
-  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;font-weight:bold;color:#666&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#777&quot;&gt;//$redirect_map should contain all the new permalinks such that&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#777&quot;&gt;//$redirect_map[old_perma] = new_perma&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#950&quot;&gt;$redirect_map&lt;/span&gt; = &lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;array&lt;/span&gt;(
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#00D&quot;&gt;123&lt;/span&gt; =&amp;gt; &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;http://www.example.com/new-blog-post&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;,
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#00D&quot;&gt;456&lt;/span&gt; =&amp;gt; &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;http://www.example.com/another-new-post&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;);
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;array_key_exists&lt;/span&gt;(&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;p&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;$_GET&lt;/span&gt;))
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;{
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;        &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;array_key_exists&lt;/span&gt;(&lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;$_GET&lt;/span&gt;[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;p&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;], &lt;span style=&quot;color:#950&quot;&gt;$redirect_map&lt;/span&gt;))
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;                &lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;header&lt;/span&gt;(&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Location: &lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;.&lt;span style=&quot;color:#950&quot;&gt;$redirect_map&lt;/span&gt;[&lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;$_GET&lt;/span&gt;[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;p&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;]], &lt;span style=&quot;color:#069&quot;&gt;true&lt;/span&gt;, &lt;span style=&quot;color:#00D&quot;&gt;301&lt;/span&gt;);
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n12&quot; name=&quot;n12&quot;&gt;12&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;else&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n13&quot; name=&quot;n13&quot;&gt;13&lt;/a&gt;&lt;/span&gt;                &lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;header&lt;/span&gt;(&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Location: http://www.example.com/&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;color:#069&quot;&gt;true&lt;/span&gt;, &lt;span style=&quot;color:#00D&quot;&gt;301&lt;/span&gt;);
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n14&quot; name=&quot;n14&quot;&gt;14&lt;/a&gt;&lt;/span&gt;}
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n15&quot; name=&quot;n15&quot;&gt;15&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;else&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n16&quot; name=&quot;n16&quot;&gt;16&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#369;font-weight:bold&quot;&gt;header&lt;/span&gt;(&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Location: http://www.example.com/&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;color:#069&quot;&gt;true&lt;/span&gt;, &lt;span style=&quot;color:#00D&quot;&gt;301&lt;/span&gt;);
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n17&quot; name=&quot;n17&quot;&gt;17&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;font-weight:bold;color:#666&quot;&gt;?&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Remember to add all the permalinks into &lt;code&gt;$redirect_map&lt;/code&gt;.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/migrating-from-wordpress-to-jekyll/&quot;&gt;Migrating from WordPress to Jekyll&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 01, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
