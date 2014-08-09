@@ -1,0 +1,385 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Rails Cross-Origin Resource Sharing &#8211; I am Yihang</title>
+<meta name="description" content="The Ruby way of solving this problem.">
+<meta name="keywords" content="Ruby on Rails, Cross-Origin Resource Sharing, CORS">
+<!-- Twitter Cards -->
+	
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content=
+			
+				
+						"http://www.yihangho.com/images/"
+				
+			
+		>
+	
+	<meta name="twitter:title" content="Rails Cross-Origin Resource Sharing">
+	<meta name="twitter:description" content="The Ruby way of solving this problem.">
+	<meta name="twitter:creator" content="@yihang5">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rails Cross-Origin Resource Sharing">
+<meta property="og:description" content="The Ruby way of solving this problem.">
+<meta property="og:url" content="http://www.yihangho.com/rails-cross-origin-resource-sharing/">
+<meta property="og:site_name" content="I am Yihang">
+
+
+
+
+
+<link rel="canonical" href="http://www.yihangho.com/rails-cross-origin-resource-sharing/">
+<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
+<link rel="author" href="http://plus.google.com/+YihangHo?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://www.yihangho.com/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://www.yihangho.com/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://www.yihangho.com">I am Yihang</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				<li><a href="http://www.yihangho.com/about/" >About</a></li>
+		        
+				<li><a href="http://www.yihangho.com/posts/" >Posts</a></li>
+		        
+				<li><a href="http://www.yihangho.com/apps/" >Apps</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+  </div>
+  <article>
+    <div class="headline-wrap">
+      
+        <h1><a href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" rel="bookmark" title="Rails Cross-Origin Resource Sharing">Rails Cross-Origin Resource Sharing</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>With the rise of several client-side frameworks like <a href="https://angularjs.org/">AngularJS</a>, servers are increasingly used as API endpoints. If you are using Rails and trying to port your front-end over to one of those client-side frameworks, the first thing Rails will tell you is something like this:</p>
+
+<blockquote>
+  <p>No ‘Access-Control-Allow-Origin’ header is present on the requested resource.</p>
+</blockquote>
+
+<p>What does this mean and how to solve this problem?</p>
+
+<h2 id="cross-origin-resource-sharing">Cross-Origin Resource Sharing</h2>
+<p>This message implies that your server does not want to share its resources with people coming from other origins. For example, if you are running <code>http://www.example.com</code>, your server is not happy to share its resources with people from <code>http://nope.example</code>. This is called Cross-Origin Resource Sharing (CORS) policy, and it can be configured by tweaking the values of some of the HTTP response headers. The most important one is <code>Access-Control-Allow-Origin</code> which should be set to the origin which your server wants to share its resources with.</p>
+
+<h2 id="solutions-given-by-the-interwebs">Solutions given by the interwebs</h2>
+<p>Other solutions that I have found on the Internet assumes that CORS is allowed every single action in your Rails app. My solution, however, does not make this assumption, and CORS can be switched on and off for any action as you like. The final product is available <a href="https://github.com/yihangho/rails-cors">here</a> on GitHub. If you need an example client, <a href="https://gist.github.com/yihangho/c2b78ec9edf69868b0e1">here</a> is one.</p>
+
+<h2 id="example">Example</h2>
+<p>For this example, assume that our Rails server is serving at <code>http://localhost:3000</code>, and our front-end client is accessible at <code>http://localhost:8000</code>. Although only the ports are different, in the context of HTTP, they belongs to two different origins.</p>
+
+<h2 id="solution-for-simple-http-methods">Solution for simple HTTP methods</h2>
+<p>If our APIs involve only <a href="http://www.w3.org/TR/cors/#simple-method">simple HTTP methods</a> (<code>GET</code>, <code>HEAD</code> and <code>POST</code>), all we need to do is to set the value of <code>Access-Control-Allow-Origin</code>. This field can take the value of <code>Origin</code> request header, <code>*</code> or <code>null</code>.</p>
+
+<p>We can achieve this by implementing a thin wrapper, <code>allow_cors</code>, to set up <code>before_action</code> callback and properly disable Rails CSRF protection for those actions.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">ApplicationController</span> &lt; <span style="color:#036;font-weight:bold">ActionController</span>::<span style="color:#036;font-weight:bold">Base</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#777"># allow_cors takes in arbitrarily many symbols representing actions that</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#777"># CORS should be enabled for</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#069">self</span>.<span style="color:#06B;font-weight:bold">allow_cors</span>(*methods)
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    before_filter <span style="color:#A60">:cors_before_filter</span>, <span style="color:#A60">:only</span> =&gt; methods
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>    <span style="color:#777"># Rails recommends to use :null_session for APIs</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>    protect_from_forgery <span style="color:#606">with</span>: <span style="color:#A60">:null_session</span>, <span style="color:#A60">:only</span> =&gt; methods
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">cors_before_filter</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>    <span style="color:#777"># Check that the `Origin` field matches our front-end client host</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>    <span style="color:#080;font-weight:bold">if</span> <span style="background-color:hsla(300,100%,50%,0.06)"><span style="color:#404">/</span><span style="color:#D20">\A</span><span style="color:#808">https?:</span><span style="color:#D20">\/</span><span style="color:#D20">\/</span><span style="color:#808">localhost:8000</span><span style="color:#D20">\z</span><span style="color:#404">/</span></span> =~ request.headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Origin</span><span style="color:#710">'</span></span>]
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>      headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Allow-Origin</span><span style="color:#710">'</span></span>] = request.headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Origin</span><span style="color:#710">'</span></span>]
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>    <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span><span style="color:#080;font-weight:bold">end</span>
+</pre></div>
+</div>
+</div>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">PostsController</span> &lt; <span style="color:#036;font-weight:bold">ApplicationController</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  allow_cors <span style="color:#A60">:index</span>, <span style="color:#A60">:other_methods</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">index</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span style="color:#777"># ...</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">other_methods</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>    <span style="color:#777"># ...</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span style="color:#080;font-weight:bold">end</span>
+</pre></div>
+</div>
+</div>
+
+<h2 id="not-so-simple-http-methods">Not-so-simple HTTP methods</h2>
+<p>What if your application is using HTTP requests such as <code>DELETE</code> or <code>PATCH</code>? Well, your browser will first send a preflight request, which is used to determine if your app is allowed to send the actual request. This preflight request is actually an <code>OPTIONS</code> request with some important request headers set:</p>
+
+<ul>
+  <li><code>Access-Control-Request-Method</code>: The HTTP method that it will use in the actual request.</li>
+  <li><code>Access-Control-Request-Headers</code>: The list of headers that the client want to send to the server.</li>
+  <li><code>Origin</code>: The origin of this request.</li>
+</ul>
+
+<p>As an example, suppose your front-end client wishes to make this HTTP request:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>DELETE http://localhost:3000/users/1.json
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>Lucky-Number: 123
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>No-So-Lucky-Number: 456
+</pre></div>
+</div>
+</div>
+
+<p>Before the browser executes this request, it will first send a preflight request that looks like this:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>OPTIONS http://localhost:3000/users/1.json
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>Access-Control-Request-Method: DELETE
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>Access-Control-Request-Headers: Lucky-Number, Not-So-Lucky-Number
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span>Origin: http://localhost:8000
+</pre></div>
+</div>
+</div>
+
+<p>And your server will send a response and inform the browser its decision using headers:</p>
+
+<ul>
+  <li><code>Access-Control-Allow-Origin</code> - The friendly origin. As mentioned earlier, this can take the value of the <code>Origin</code> request header, <code>*</code> or <code>null</code>.</li>
+  <li><code>Access-Control-Allow-Methods</code> - The list of HTTP methods that it allows. Note that this value is case sensitive, and the correct form is all caps, like <code>GET</code>, not <code>Get</code>.</li>
+  <li><code>Access-Control-Max-Age</code> - How long (in seconds) will this response remains valid. You can set this to a large number like 1728000 (which is 20 days) unless your CORS policy is rather erratic.</li>
+  <li><code>Access-Control-Allow-Headers</code> - The list of additional headers that it allows.</li>
+</ul>
+
+<p>The browser will execute the actual request if and only if</p>
+
+<ul>
+  <li><code>Access-Control-Allow-Origin</code> matches the value of <code>Origin</code> request header or <code>*</code>.</li>
+  <li><code>Access-Control-Allow-Methods</code> contains <code>Access-Control-Request-Method</code>.</li>
+  <li><code>Access-Control-Allow-Headers</code> is a superset of <code>Access-Control-Request-Headers</code>.</li>
+</ul>
+
+<p>So to handle the preflight requests, our Rails app will have to be able to construct a proper response to it, and this starts with responding to <code>OPTIONS</code> request. First, we will generate a controller to actually respond to these preflight requests:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>rails generate controller Cors preflight
+</pre></div>
+</div>
+</div>
+
+<p>Then make it respond to all the preflight requests. In <code>routes.rb</code>,</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777"># config/routes.rb</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Rails</span>.application.routes.draw <span style="color:#080;font-weight:bold">do</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#777"># Remove get 'cors/preflight' added by the generator</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  ...
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>  ...
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  ...
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>  <span style="color:#777"># At the end of all your existing configurations, add this line:</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  match <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">*path</span><span style="color:#710">'</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">cors#preflight</span><span style="color:#710">'</span></span>, <span style="color:#A60">:via</span> =&gt; <span style="color:#A60">:options</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span style="color:#777"># Essentially it maps all OPTIONS request to our newly generated controller</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span style="color:#080;font-weight:bold">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Just like what we have done with the simple methods requests, we will only allow CORS for actions that are explicitly listed. Hence, we have to record the list of allowed actions:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">ApplicationController</span> &lt; <span style="color:#036;font-weight:bold">ActionController</span>::<span style="color:#036;font-weight:bold">Base</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#069">self</span>.<span style="color:#06B;font-weight:bold">cors_allowed_actions</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span style="color:#33B">@cors_allowed_actions</span> ||= []
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#069">self</span>.<span style="color:#06B;font-weight:bold">cors_allowed_actions=</span>(arr)
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>    <span style="color:#33B">@cors_allowed_actions</span> = arr
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#069">self</span>.<span style="color:#06B;font-weight:bold">allow_cors</span>(*methods)
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>    <span style="color:#069">self</span>.cors_allowed_actions += methods
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>    before_filter <span style="color:#A60">:cors_before_filter</span>, <span style="color:#A60">:only</span> =&gt; methods
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>    protect_from_forgery <span style="color:#606">with</span>: <span style="color:#A60">:null_session</span>, <span style="color:#A60">:only</span> =&gt; methods
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span><span style="color:#080;font-weight:bold">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Here comes the more complicated part. First, we ask Rails which controller and action are responsible for the request, then check if that action is allowed to enable CORS.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">CorsController</span> &lt; <span style="color:#036;font-weight:bold">ApplicationController</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">preflight</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span style="color:#080;font-weight:bold">begin</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>      http_request_verb = request.headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Request-Method</span><span style="color:#710">'</span></span>]
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>      <span style="color:#777"># You should add/remove HTTP methods that you want/do not want to support</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>      raise <span style="color:#080;font-weight:bold">unless</span> [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">PUT</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">PATCH</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">DELETE</span><span style="color:#710">&quot;</span></span>].include? http_request_verb
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>      <span style="color:#777"># This line will raise an exception if the path does not resolve to any controller/action.</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>      details = <span style="color:#036;font-weight:bold">Rails</span>.application.routes.recognize_path(request.original_fullpath, <span style="color:#A60">:method</span> =&gt; http_request_verb.downcase.to_sym)
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>      <span style="color:#777"># details looks something like this { :controller =&gt; &quot;posts&quot;, :action =&gt; &quot;index&quot; }</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>      <span style="color:#777"># Convert to the controller class name (posts =&gt; PostsController)</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>      controller_class_name = details[<span style="color:#A60">:controller</span>].capitalize + <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Controller</span><span style="color:#710">&quot;</span></span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>      <span style="color:#777"># Since we recorded the action names as symbol, we should convert it to symbol here</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>      action_name = details[<span style="color:#A60">:action</span>].to_sym
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>      <span style="color:#777"># If this statement returns true, then CORS is allowed</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>      <span style="color:#080;font-weight:bold">if</span> eval(controller_class_name).cors_allowed_actions.include?(action_name)
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>        headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Allow-Origin</span><span style="color:#710">'</span></span>]  = request.headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Origin</span><span style="color:#710">'</span></span>]
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>        headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Allow-Methods</span><span style="color:#710">'</span></span>] = http_request_verb
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span>        <span style="color:#777"># Change this to something smaller while you are debugging</span>
+<span class="line-numbers"><a href="#n23" name="n23">23</a></span>        headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Max-Age</span><span style="color:#710">'</span></span>]       = <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">1728000</span><span style="color:#710">&quot;</span></span>
+<span class="line-numbers"><a href="#n24" name="n24">24</a></span>        <span style="color:#777"># Change this to the list of accepted headers, or remove it if you do not accept any.</span>
+<span class="line-numbers"><a href="#n25" name="n25">25</a></span>        headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Allow-Headers</span><span style="color:#710">'</span></span>] = request.headers[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Access-Control-Request-Headers</span><span style="color:#710">'</span></span>]
+<span class="line-numbers"><a href="#n26" name="n26">26</a></span>      <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n27" name="n27">27</a></span>    <span style="color:#080;font-weight:bold">rescue</span>
+<span class="line-numbers"><a href="#n28" name="n28">28</a></span>    <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n29" name="n29">29</a></span>
+<span class="line-numbers"><strong><a href="#n30" name="n30">30</a></strong></span>    <span style="color:#777"># Render empty stuff since preflight requests care only about the headers</span>
+<span class="line-numbers"><a href="#n31" name="n31">31</a></span>    render <span style="color:#A60">:text</span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#710">&quot;</span></span>, <span style="color:#A60">:content_type</span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">text/plain</span><span style="color:#710">'</span></span>
+<span class="line-numbers"><a href="#n32" name="n32">32</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n33" name="n33">33</a></span><span style="color:#080;font-weight:bold">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>And this if how you handle CORS the Ruby way.</p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+  <li><a href="http://www.w3.org/TR/cors/">W3C CORS Specification</a></li>
+</ol>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+        </div>
+        <p class="byline"><strong>Rails Cross-Origin Resource Sharing</strong> was published on <time datetime="2014-08-10T00:00:00+08:00">August 10, 2014</time> by <a href="http://www.yihangho.com/about" title="About Yihang Ho">Yihang Ho</a>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/" title="AngularJS modules on Google Hosted Libraries">AngularJS modules on Google Hosted Libraries</a></li>
+    
+      <li><a href="http://www.yihangho.com/my-first-pull-request/" title="My first Pull Request">My first Pull Request</a></li>
+    
+      <li><a href="http://www.yihangho.com/bezier/" title="Bézier">Bézier</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
+
+
+<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
+	        
+
+</body>
+</html>

@@ -1,1 +1,197 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Articulation Point and Bridge &#8211; I am Yihang</title><meta name=description content="The choking points of a graph"><meta name=keywords content=Algorithm><meta name="twitter:card" content=summary><meta name="twitter:image" content="http://www.yihangho.com/images/"><meta name="twitter:title" content="Articulation Point and Bridge"><meta name="twitter:description" content="The choking points of a graph"><meta name="twitter:creator" content="@yihang5"><meta property="og:locale" content=en_US><meta property="og:type" content=article><meta property="og:title" content="Articulation Point and Bridge"><meta property="og:description" content="The choking points of a graph"><meta property="og:url" content="http://www.yihangho.com/articulation-point-and-bridge/"><meta property="og:site_name" content="I am Yihang"><link rel=canonical href="http://www.yihangho.com/articulation-point-and-bridge/"><link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel=alternate title="I am Yihang Feed"><link rel=author href="http://plus.google.com/+YihangHo?rel=author"><meta name=HandheldFriendly content=True><meta name=MobileOptimized content=320><meta name=viewport content="width=device-width, initial-scale=1.0"><link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel=stylesheet><link rel=stylesheet href="http://www.yihangho.com/assets/css/main.min.css"><meta http-equiv=cleartype content=on><!--[if lt IE 9]><script src="http://www.yihangho.com/assets/js/vendor/html5shiv.min.js"></script><script src="http://www.yihangho.com/assets/js/vendor/respond.min.js"></script><![endif]--><script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script></head><body class=post><!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]--><div class=navigation-wrapper><div class=site-name><a href="http://www.yihangho.com">I am Yihang</a></div><div class=top-navigation><nav role=navigation id=site-nav class=nav><ul><li><a href="http://www.yihangho.com/about/">About</a></li><li><a href="http://www.yihangho.com/posts/">Posts</a></li><li><a href="http://www.yihangho.com/apps/">Apps</a></li></ul></nav></div></div><div id=main role=main><div class=article-author-side><img src="http://www.yihangho.com/images/bio-photo.jpg" class=bio-photo alt="Yihang Ho bio photo"></a><h3>Yihang Ho</h3><p>Coder</p><a href="http://twitter.com/yihang5" class=author-social target=_blank><i class=icon-twitter></i> Twitter</a><a href="http://facebook.com/yihangho" class=author-social target=_blank><i class=icon-facebook></i> Facebook</a><a href="http://plus.google.com/+YihangHo" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a><a href="http://github.com/yihangho" class=author-social target=_blank><i class=icon-github></i> Github</a><a href="mailto:me@yihangho.com" class=author-social target=_blank><i class=icon-mail></i> Email</a></div><article><div class=headline-wrap><h1><a href="http://www.yihangho.com/articulation-point-and-bridge/" rel=bookmark title="Articulation Point and Bridge">Articulation Point and Bridge</a></h1></div><div class=article-wrap><p>I was explaining the idea of articulation point and bridge to someone who has never heard of graph theory. That was a little challenging, but fun at the same time.</p><p>Imagine that you run an airline, and your planes fly between a selected set of airports. This scenario actually can be described by a graph - each airport is a node and each flight between two airports is an edge. We call a graph connected if, using our airline analogy, a passenger can start from any airport of her choice, and arrive at any other airport after some finite transits.</p><p>Suppose that one of these airports is forced to shutdown due to a natural disaster. Let’s call this airport X. Clearly, your passengers will not be able to arrive at airport X. However, it is possible that some of the other airports become inaccessible as your passengers need to transit at X to arrive at these airports. For example, our airline flies between, A and X, and X and B. If X is shut down, then passenger from A will not be able to arrive at B and vice versa. Airports like X that break the connectivity of the entire graph when removed are called the articulation points.</p><p>Now, instead of shutting down an airport, one of the many flights becomes unavailable - our airline decided not to fly between X and Y anymore. Again, some of the destinations might become inaccessible. As an example, our airline initially flies between A and X, X and Y, and Y and B. If we stop flying between X and Y, passengers from A will not be able to arrive at B and vice versa. Flights like X-Y that break the connectivity when removed are called bridges.</p><p>The algorithm for finding articulation points and bridges is simple. One naïve way is to remove each possible node and edge, and check if the graph is still connected. This requires V+E DFSes. A better solution can solve this problem with a single DFS, proposed by John Hopcroft and Robert Endre Tarjan. This solution is readily available on the internet. One thing that is possibly confusing about this algorithm is:</p><blockquote><p>The root vertex is an articulation point if and only if it has more than 2 children.</p></blockquote><p>This statement refers to the graph formed by DFS, not the original graph itself.</p><hr/><footer role=contentinfo><div class=article-author-bottom><img src="http://www.yihangho.com/images/bio-photo.jpg" class=bio-photo alt="Yihang Ho bio photo"></a><h3>Yihang Ho</h3><p>Coder</p><a href="http://twitter.com/yihang5" class=author-social target=_blank><i class=icon-twitter></i> Twitter</a><a href="http://facebook.com/yihangho" class=author-social target=_blank><i class=icon-facebook></i> Facebook</a><a href="http://plus.google.com/+YihangHo" class=author-social target=_blank><i class=icon-google-plus></i> Google+</a><a href="http://github.com/yihangho" class=author-social target=_blank><i class=icon-github></i> Github</a><a href="mailto:me@yihangho.com" class=author-social target=_blank><i class=icon-mail></i> Email</a></div><p class=byline><strong>Articulation Point and Bridge</strong> was published on <time datetime="2013-11-16T00:00:00+08:00">November 16, 2013</time> by <a href="http://www.yihangho.com/about" title="About Yihang Ho">Yihang Ho</a>.</p></footer></div></article></div><div class=footer-wrap><div class=related-articles><h4>You might also enjoy <small class=pull-right>(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4><ul><li><a href="http://www.yihangho.com/us-visa-application/" title="US Visa Application">US Visa Application</a></li><li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use/" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li><li><a href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell/" title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li></ul><hr/></div><footer><span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span></footer></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script><script src="http://www.yihangho.com/assets/js/scripts.min.js"></script><script>var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script></body></html>
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Articulation Point and Bridge &#8211; I am Yihang</title>
+<meta name="description" content="The choking points of a graph">
+<meta name="keywords" content="Algorithm">
+<!-- Twitter Cards -->
+	
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content=
+			
+				
+						"http://www.yihangho.com/images/"
+				
+			
+		>
+	
+	<meta name="twitter:title" content="Articulation Point and Bridge">
+	<meta name="twitter:description" content="The choking points of a graph">
+	<meta name="twitter:creator" content="@yihang5">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Articulation Point and Bridge">
+<meta property="og:description" content="The choking points of a graph">
+<meta property="og:url" content="http://www.yihangho.com/articulation-point-and-bridge/">
+<meta property="og:site_name" content="I am Yihang">
+
+
+
+
+
+<link rel="canonical" href="http://www.yihangho.com/articulation-point-and-bridge/">
+<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
+<link rel="author" href="http://plus.google.com/+YihangHo?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://www.yihangho.com/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://www.yihangho.com/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://www.yihangho.com">I am Yihang</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				<li><a href="http://www.yihangho.com/about/" >About</a></li>
+		        
+				<li><a href="http://www.yihangho.com/posts/" >Posts</a></li>
+		        
+				<li><a href="http://www.yihangho.com/apps/" >Apps</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+  </div>
+  <article>
+    <div class="headline-wrap">
+      
+        <h1><a href="http://www.yihangho.com/articulation-point-and-bridge/" rel="bookmark" title="Articulation Point and Bridge">Articulation Point and Bridge</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>I was explaining the idea of articulation point and bridge to someone who has never heard of graph theory. That was a little challenging, but fun at the same time.</p>
+
+<p>Imagine that you run an airline, and your planes fly between a selected set of airports. This scenario actually can be described by a graph - each airport is a node and each flight between two airports is an edge. We call a graph connected if, using our airline analogy, a passenger can start from any airport of her choice, and arrive at any other airport after some finite transits.</p>
+
+<p>Suppose that one of these airports is forced to shutdown due to a natural disaster. Let’s call this airport X. Clearly, your passengers will not be able to arrive at airport X. However, it is possible that some of the other airports become inaccessible as your passengers need to transit at X to arrive at these airports. For example, our airline flies between, A and X, and X and B. If X is shut down, then passenger from A will not be able to arrive at B and vice versa. Airports like X that break the connectivity of the entire graph when removed are called the articulation points.</p>
+
+<p>Now, instead of shutting down an airport, one of the many flights becomes unavailable - our airline decided not to fly between X and Y anymore. Again, some of the destinations might become inaccessible. As an example, our airline initially flies between A and X, X and Y, and Y and B. If we stop flying between X and Y, passengers from A will not be able to arrive at B and vice versa. Flights like X-Y that break the connectivity when removed are called bridges.</p>
+
+<p>The algorithm for finding articulation points and bridges is simple. One naïve way is to remove each possible node and edge, and check if the graph is still connected. This requires V+E DFSes. A better solution can solve this problem with a single DFS, proposed by John Hopcroft and Robert Endre Tarjan. This solution is readily available on the internet. One thing that is possibly confusing about this algorithm is:</p>
+
+<blockquote>
+  <p>The root vertex is an articulation point if and only if it has more than 2 children.</p>
+</blockquote>
+
+<p>This statement refers to the graph formed by DFS, not the original graph itself.</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+        </div>
+        <p class="byline"><strong>Articulation Point and Bridge</strong> was published on <time datetime="2013-11-16T00:00:00+08:00">November 16, 2013</time> by <a href="http://www.yihangho.com/about" title="About Yihang Ho">Yihang Ho</a>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" title="Rails Cross-Origin Resource Sharing">Rails Cross-Origin Resource Sharing</a></li>
+    
+      <li><a href="http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/" title="AngularJS modules on Google Hosted Libraries">AngularJS modules on Google Hosted Libraries</a></li>
+    
+      <li><a href="http://www.yihangho.com/my-first-pull-request/" title="My first Pull Request">My first Pull Request</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
+
+
+<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
+	        
+
+</body>
+</html>

@@ -4,13 +4,232 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://www.yihangho.com/feed.xml" />
 <link rel="alternate" type="text/html" href="http://www.yihangho.com" />
-<updated>2014-08-06T01:04:53+08:00</updated>
+<updated>2014-08-10T00:32:56+08:00</updated>
 <id>http://www.yihangho.com/</id>
 <author>
   <name>Yihang Ho</name>
   <uri>http://www.yihangho.com/</uri>
   <email>me@yihangho.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Rails Cross-Origin Resource Sharing]]></title>
+  <link rel="alternate" type="text/html" href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" />
+  <id>http://www.yihangho.com/rails-cross-origin-resource-sharing</id>
+  <published>2014-08-10T00:00:00+08:00</published>
+  <updated>2014-08-10T00:00:00+08:00</updated>
+  <author>
+    <name>Yihang Ho</name>
+    <uri>http://www.yihangho.com</uri>
+    <email>me@yihangho.com</email>
+  </author>
+  <content type="html">&lt;p&gt;With the rise of several client-side frameworks like &lt;a href=&quot;https://angularjs.org/&quot;&gt;AngularJS&lt;/a&gt;, servers are increasingly used as API endpoints. If you are using Rails and trying to port your front-end over to one of those client-side frameworks, the first thing Rails will tell you is something like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;No ‘Access-Control-Allow-Origin’ header is present on the requested resource.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What does this mean and how to solve this problem?&lt;/p&gt;
+
+&lt;h2 id=&quot;cross-origin-resource-sharing&quot;&gt;Cross-Origin Resource Sharing&lt;/h2&gt;
+&lt;p&gt;This message implies that your server does not want to share its resources with people coming from other origins. For example, if you are running &lt;code&gt;http://www.example.com&lt;/code&gt;, your server is not happy to share its resources with people from &lt;code&gt;http://nope.example&lt;/code&gt;. This is called Cross-Origin Resource Sharing (CORS) policy, and it can be configured by tweaking the values of some of the HTTP response headers. The most important one is &lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt; which should be set to the origin which your server wants to share its resources with.&lt;/p&gt;
+
+&lt;h2 id=&quot;solutions-given-by-the-interwebs&quot;&gt;Solutions given by the interwebs&lt;/h2&gt;
+&lt;p&gt;Other solutions that I have found on the Internet assumes that CORS is allowed every single action in your Rails app. My solution, however, does not make this assumption, and CORS can be switched on and off for any action as you like. The final product is available &lt;a href=&quot;https://github.com/yihangho/rails-cors&quot;&gt;here&lt;/a&gt; on GitHub. If you need an example client, &lt;a href=&quot;https://gist.github.com/yihangho/c2b78ec9edf69868b0e1&quot;&gt;here&lt;/a&gt; is one.&lt;/p&gt;
+
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
+&lt;p&gt;For this example, assume that our Rails server is serving at &lt;code&gt;http://localhost:3000&lt;/code&gt;, and our front-end client is accessible at &lt;code&gt;http://localhost:8000&lt;/code&gt;. Although only the ports are different, in the context of HTTP, they belongs to two different origins.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution-for-simple-http-methods&quot;&gt;Solution for simple HTTP methods&lt;/h2&gt;
+&lt;p&gt;If our APIs involve only &lt;a href=&quot;http://www.w3.org/TR/cors/#simple-method&quot;&gt;simple HTTP methods&lt;/a&gt; (&lt;code&gt;GET&lt;/code&gt;, &lt;code&gt;HEAD&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;), all we need to do is to set the value of &lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;. This field can take the value of &lt;code&gt;Origin&lt;/code&gt; request header, &lt;code&gt;*&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can achieve this by implementing a thin wrapper, &lt;code&gt;allow_cors&lt;/code&gt;, to set up &lt;code&gt;before_action&lt;/code&gt; callback and properly disable Rails CSRF protection for those actions.&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#B06;font-weight:bold&quot;&gt;ApplicationController&lt;/span&gt; &amp;lt; &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;ActionController&lt;/span&gt;::&lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;Base&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#777&quot;&gt;# allow_cors takes in arbitrarily many symbols representing actions that&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#777&quot;&gt;# CORS should be enabled for&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#069&quot;&gt;self&lt;/span&gt;.&lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;allow_cors&lt;/span&gt;(*methods)
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;    before_filter &lt;span style=&quot;color:#A60&quot;&gt;:cors_before_filter&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:only&lt;/span&gt; =&amp;gt; methods
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#777&quot;&gt;# Rails recommends to use :null_session for APIs&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;    protect_from_forgery &lt;span style=&quot;color:#606&quot;&gt;with&lt;/span&gt;: &lt;span style=&quot;color:#A60&quot;&gt;:null_session&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:only&lt;/span&gt; =&amp;gt; methods
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;cors_before_filter&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n12&quot; name=&quot;n12&quot;&gt;12&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#777&quot;&gt;# Check that the `Origin` field matches our front-end client host&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n13&quot; name=&quot;n13&quot;&gt;13&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;background-color:hsla(300,100%,50%,0.06)&quot;&gt;&lt;span style=&quot;color:#404&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;\A&lt;/span&gt;&lt;span style=&quot;color:#808&quot;&gt;https?:&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;\/&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;\/&lt;/span&gt;&lt;span style=&quot;color:#808&quot;&gt;localhost:8000&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;\z&lt;/span&gt;&lt;span style=&quot;color:#404&quot;&gt;/&lt;/span&gt;&lt;/span&gt; =~ request.headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Origin&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n14&quot; name=&quot;n14&quot;&gt;14&lt;/a&gt;&lt;/span&gt;      headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Allow-Origin&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;] = request.headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Origin&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n15&quot; name=&quot;n15&quot;&gt;15&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n16&quot; name=&quot;n16&quot;&gt;16&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n17&quot; name=&quot;n17&quot;&gt;17&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#B06;font-weight:bold&quot;&gt;PostsController&lt;/span&gt; &amp;lt; &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;ApplicationController&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;  allow_cors &lt;span style=&quot;color:#A60&quot;&gt;:index&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:other_methods&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;index&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#777&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;other_methods&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#777&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;not-so-simple-http-methods&quot;&gt;Not-so-simple HTTP methods&lt;/h2&gt;
+&lt;p&gt;What if your application is using HTTP requests such as &lt;code&gt;DELETE&lt;/code&gt; or &lt;code&gt;PATCH&lt;/code&gt;? Well, your browser will first send a preflight request, which is used to determine if your app is allowed to send the actual request. This preflight request is actually an &lt;code&gt;OPTIONS&lt;/code&gt; request with some important request headers set:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Request-Method&lt;/code&gt;: The HTTP method that it will use in the actual request.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Request-Headers&lt;/code&gt;: The list of headers that the client want to send to the server.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Origin&lt;/code&gt;: The origin of this request.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As an example, suppose your front-end client wishes to make this HTTP request:&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;DELETE http://localhost:3000/users/1.json
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;Lucky-Number: 123
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;No-So-Lucky-Number: 456
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Before the browser executes this request, it will first send a preflight request that looks like this:&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;OPTIONS http://localhost:3000/users/1.json
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;Access-Control-Request-Method: DELETE
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;Access-Control-Request-Headers: Lucky-Number, Not-So-Lucky-Number
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;Origin: http://localhost:8000
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And your server will send a response and inform the browser its decision using headers:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt; - The friendly origin. As mentioned earlier, this can take the value of the &lt;code&gt;Origin&lt;/code&gt; request header, &lt;code&gt;*&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Methods&lt;/code&gt; - The list of HTTP methods that it allows. Note that this value is case sensitive, and the correct form is all caps, like &lt;code&gt;GET&lt;/code&gt;, not &lt;code&gt;Get&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Max-Age&lt;/code&gt; - How long (in seconds) will this response remains valid. You can set this to a large number like 1728000 (which is 20 days) unless your CORS policy is rather erratic.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Headers&lt;/code&gt; - The list of additional headers that it allows.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The browser will execute the actual request if and only if&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt; matches the value of &lt;code&gt;Origin&lt;/code&gt; request header or &lt;code&gt;*&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Methods&lt;/code&gt; contains &lt;code&gt;Access-Control-Request-Method&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;Access-Control-Allow-Headers&lt;/code&gt; is a superset of &lt;code&gt;Access-Control-Request-Headers&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So to handle the preflight requests, our Rails app will have to be able to construct a proper response to it, and this starts with responding to &lt;code&gt;OPTIONS&lt;/code&gt; request. First, we will generate a controller to actually respond to these preflight requests:&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;rails generate controller Cors preflight
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then make it respond to all the preflight requests. In &lt;code&gt;routes.rb&lt;/code&gt;,&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#777&quot;&gt;# config/routes.rb&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;Rails&lt;/span&gt;.application.routes.draw &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;do&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#777&quot;&gt;# Remove get &#39;cors/preflight&#39; added by the generator&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;  ...
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;  ...
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;  ...
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#777&quot;&gt;# At the end of all your existing configurations, add this line:&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;  match &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;*path&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt; =&amp;gt; &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;cors#preflight&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:via&lt;/span&gt; =&amp;gt; &lt;span style=&quot;color:#A60&quot;&gt;:options&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#777&quot;&gt;# Essentially it maps all OPTIONS request to our newly generated controller&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Just like what we have done with the simple methods requests, we will only allow CORS for actions that are explicitly listed. Hence, we have to record the list of allowed actions:&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#B06;font-weight:bold&quot;&gt;ApplicationController&lt;/span&gt; &amp;lt; &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;ActionController&lt;/span&gt;::&lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;Base&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#069&quot;&gt;self&lt;/span&gt;.&lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;cors_allowed_actions&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#33B&quot;&gt;@cors_allowed_actions&lt;/span&gt; ||= []
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#069&quot;&gt;self&lt;/span&gt;.&lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;cors_allowed_actions=&lt;/span&gt;(arr)
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#33B&quot;&gt;@cors_allowed_actions&lt;/span&gt; = arr
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#069&quot;&gt;self&lt;/span&gt;.&lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;allow_cors&lt;/span&gt;(*methods)
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#069&quot;&gt;self&lt;/span&gt;.cors_allowed_actions += methods
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n12&quot; name=&quot;n12&quot;&gt;12&lt;/a&gt;&lt;/span&gt;    before_filter &lt;span style=&quot;color:#A60&quot;&gt;:cors_before_filter&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:only&lt;/span&gt; =&amp;gt; methods
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n13&quot; name=&quot;n13&quot;&gt;13&lt;/a&gt;&lt;/span&gt;    protect_from_forgery &lt;span style=&quot;color:#606&quot;&gt;with&lt;/span&gt;: &lt;span style=&quot;color:#A60&quot;&gt;:null_session&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:only&lt;/span&gt; =&amp;gt; methods
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n14&quot; name=&quot;n14&quot;&gt;14&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n15&quot; name=&quot;n15&quot;&gt;15&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here comes the more complicated part. First, we ask Rails which controller and action are responsible for the request, then check if that action is allowed to enable CORS.&lt;/p&gt;
+
+&lt;div&gt;&lt;div class=&quot;CodeRay&quot;&gt;
+  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#B06;font-weight:bold&quot;&gt;CorsController&lt;/span&gt; &amp;lt; &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;ApplicationController&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color:#06B;font-weight:bold&quot;&gt;preflight&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;begin&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;      http_request_verb = request.headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Request-Method&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# You should add/remove HTTP methods that you want/do not want to support&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;      raise &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;unless&lt;/span&gt; [&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;PUT&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;PATCH&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;DELETE&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;].include? http_request_verb
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# This line will raise an exception if the path does not resolve to any controller/action.&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;      details = &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;Rails&lt;/span&gt;.application.routes.recognize_path(request.original_fullpath, &lt;span style=&quot;color:#A60&quot;&gt;:method&lt;/span&gt; =&amp;gt; http_request_verb.downcase.to_sym)
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# details looks something like this { :controller =&amp;gt; &amp;quot;posts&amp;quot;, :action =&amp;gt; &amp;quot;index&amp;quot; }&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n12&quot; name=&quot;n12&quot;&gt;12&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n13&quot; name=&quot;n13&quot;&gt;13&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# Convert to the controller class name (posts =&amp;gt; PostsController)&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n14&quot; name=&quot;n14&quot;&gt;14&lt;/a&gt;&lt;/span&gt;      controller_class_name = details[&lt;span style=&quot;color:#A60&quot;&gt;:controller&lt;/span&gt;].capitalize + &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Controller&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n15&quot; name=&quot;n15&quot;&gt;15&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# Since we recorded the action names as symbol, we should convert it to symbol here&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n16&quot; name=&quot;n16&quot;&gt;16&lt;/a&gt;&lt;/span&gt;      action_name = details[&lt;span style=&quot;color:#A60&quot;&gt;:action&lt;/span&gt;].to_sym
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n17&quot; name=&quot;n17&quot;&gt;17&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n18&quot; name=&quot;n18&quot;&gt;18&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#777&quot;&gt;# If this statement returns true, then CORS is allowed&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n19&quot; name=&quot;n19&quot;&gt;19&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;if&lt;/span&gt; eval(controller_class_name).cors_allowed_actions.include?(action_name)
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n20&quot; name=&quot;n20&quot;&gt;20&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;        headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Allow-Origin&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]  = request.headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Origin&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n21&quot; name=&quot;n21&quot;&gt;21&lt;/a&gt;&lt;/span&gt;        headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Allow-Methods&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;] = http_request_verb
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n22&quot; name=&quot;n22&quot;&gt;22&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#777&quot;&gt;# Change this to something smaller while you are debugging&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n23&quot; name=&quot;n23&quot;&gt;23&lt;/a&gt;&lt;/span&gt;        headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Max-Age&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]       = &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;1728000&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n24&quot; name=&quot;n24&quot;&gt;24&lt;/a&gt;&lt;/span&gt;        &lt;span style=&quot;color:#777&quot;&gt;# Change this to the list of accepted headers, or remove it if you do not accept any.&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n25&quot; name=&quot;n25&quot;&gt;25&lt;/a&gt;&lt;/span&gt;        headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Allow-Headers&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;] = request.headers[&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;Access-Control-Request-Headers&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;]
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n26&quot; name=&quot;n26&quot;&gt;26&lt;/a&gt;&lt;/span&gt;      &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n27&quot; name=&quot;n27&quot;&gt;27&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;rescue&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n28&quot; name=&quot;n28&quot;&gt;28&lt;/a&gt;&lt;/span&gt;    &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n29&quot; name=&quot;n29&quot;&gt;29&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n30&quot; name=&quot;n30&quot;&gt;30&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;    &lt;span style=&quot;color:#777&quot;&gt;# Render empty stuff since preflight requests care only about the headers&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n31&quot; name=&quot;n31&quot;&gt;31&lt;/a&gt;&lt;/span&gt;    render &lt;span style=&quot;color:#A60&quot;&gt;:text&lt;/span&gt; =&amp;gt; &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style=&quot;color:#A60&quot;&gt;:content_type&lt;/span&gt; =&amp;gt; &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;text/plain&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n32&quot; name=&quot;n32&quot;&gt;32&lt;/a&gt;&lt;/span&gt;  &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n33&quot; name=&quot;n33&quot;&gt;33&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And this if how you handle CORS the Ruby way.&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/cors/&quot;&gt;W3C CORS Specification&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/rails-cross-origin-resource-sharing/&quot;&gt;Rails Cross-Origin Resource Sharing&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 10, 2014.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
@@ -49,7 +268,7 @@
 
 &lt;p&gt;I used the word “legitimate” as I have actually submitted (and all of them were accepted &lt;img class=&quot;emoji&quot; title=&quot;blush&quot; alt=&quot;blush&quot; src=&quot;https://github.global.ssl.fastly.net/images/icons/emoji/blush.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot; /&gt;) several other pull requests, none of them touched the actual code. Their effects range from &lt;a href=&quot;https://github.com/RayViljoen/Raspberry-PI-SD-Installer-OS-X/pull/3&quot;&gt;fixing typo&lt;/a&gt; to &lt;a href=&quot;https://github.com/mmistakes/minimal-mistakes/pull/55&quot;&gt;bumping up the version of a dependency&lt;/a&gt; to &lt;a href=&quot;https://github.com/jekyll/jekyll/pull/1708&quot;&gt;requesting my plugin to be included to the official site&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;It took exactly a week for my pull request to be accepted, not because the owners are lazy, but the exact opposite. &lt;a href=&quot;https://github.com/parkr&quot; class=&quot;user-mention&quot;&gt;@parkr&lt;/a&gt;, who helps maintaining the Jekyll project helped improve my contribution from lousy to suck less to much better. As a result, I can say that at least 50% of this contribution is his!&lt;/p&gt;
+&lt;p&gt;It took exactly a week for my pull request to be accepted, not because the owners are lazy, but the exact opposite. @parkr, who helps maintaining the Jekyll project helped improve my contribution from lousy to suck less to much better. As a result, I can say that at least 50% of this contribution is his!&lt;/p&gt;
 
 &lt;p&gt;Nonetheless, I am proud to say that I am finally contributing to an open source project. At least a few lines of code written by me will be executed whenever someone run &lt;code&gt;jekyll build&lt;/code&gt;, and this is awesome. &lt;img class=&quot;emoji&quot; title=&quot;grin&quot; alt=&quot;grin&quot; src=&quot;https://github.global.ssl.fastly.net/images/icons/emoji/grin.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot; /&gt;&lt;/p&gt;
 
@@ -644,11 +863,13 @@
   &lt;li&gt;Also, there is a suggested snippet to set up virtual host for rail projects. I did that to, and the virtual host serves a dummy application just created by &lt;code&gt;rails new&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;sudo apachectl restart&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Visit the virtual host. Browser complains that ‘Oops! Google Chrome could not connect to…’ All the existing virtual hosts that were working are not working anymore.&lt;/li&gt;
-  &lt;li&gt;Next I tried &lt;code&gt;httpd -t&lt;/code&gt;. This is the output:&lt;/li&gt;
-&lt;/ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Next I tried &lt;code&gt;httpd -t&lt;/code&gt;. This is the output:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
+    &lt;pre&gt;&lt;code&gt; httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
 &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;I’ve been Googling a lot and nobody else seems to have this problem. Until I tried to use all the default tools - this includes GCC/G++. So what I did was to (temporarily) remove &lt;code&gt;/usr/local/bin&lt;/code&gt; from my &lt;code&gt;PATH&lt;/code&gt; variable (most likely they are set in &lt;code&gt;~/.bashrc&lt;/code&gt;, &lt;code&gt;~/bash_profile&lt;/code&gt; and/or &lt;code&gt;/etc/paths&lt;/code&gt;), which effectively temporarily remove &lt;em&gt;ALL&lt;/em&gt; homebrew installed application. I have to admit that the proper way is to &lt;code&gt;brew unlink gcc48&lt;/code&gt; then &lt;code&gt;brew link gcc48&lt;/code&gt; at the end. After you have done this, just trigger &lt;code&gt;passenger-install-apache2-module&lt;/code&gt; and all should be good. &lt;img class=&quot;emoji&quot; title=&quot;smile&quot; alt=&quot;smile&quot; src=&quot;https://github.global.ssl.fastly.net/images/icons/emoji/smile.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot; /&gt;&lt;/p&gt;
 
@@ -961,35 +1182,6 @@ back to your user account.
 &lt;/div&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/data-attribute-with-javascript-and-jquery/&quot;&gt;Data attribute with JavaScript and jQuery&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 18, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Cloud IDE III - Koding]]></title>
-  <link rel="alternate" type="text/html" href="http://www.yihangho.com/cloud-ide-iii-koding/" />
-  <id>http://www.yihangho.com/cloud-ide-iii-koding</id>
-  <published>2013-08-05T00:00:00+08:00</published>
-  <updated>2013-08-05T00:00:00+08:00</updated>
-  <author>
-    <name>Yihang Ho</name>
-    <uri>http://www.yihangho.com</uri>
-    <email>me@yihangho.com</email>
-  </author>
-  <content type="html">&lt;p&gt;&lt;a href=&quot;https://koding.com/&quot;&gt;Koding&lt;/a&gt; is a very interesting platform due to the fact that it has a Facebook-like newsfeed where all members of Koding get to communicate with each other. The employees of Koding use the newsfeed to announce updates and people will post their feedbacks there. It is a very engaging community. It was quite difficult to get started writing the review for Koding as there are too many updates very quickly. Whenever I started a draft and continue maybe a day or two later, some of the things that I complaint already become irrelevant.&lt;/p&gt;
-
-&lt;h2 id=&quot;pricing&quot;&gt;Pricing&lt;/h2&gt;
-
-&lt;p&gt;The first instance of virtual machine is free of charge, each subsequent VM costs $5 per month. The exact specification of each instance is not known, but from what I can see and feel, $5 is very very reasonable.&lt;/p&gt;
-
-&lt;h2 id=&quot;virtual-machine&quot;&gt;Virtual Machine&lt;/h2&gt;
-
-&lt;p&gt;There is nothing to say much about the VMs - users have &lt;code&gt;sudo&lt;/code&gt; access on their VMs. In other word, there is no language that has a compiler/interpreter for Linux is not supported in Koding. More precisely, the VMs are running Ubuntu 13.04, just get a compiler/interpreter for Ubuntu 13.04 and any exotic language of your choice is working on Koding. However, as I’ve mentioned in the &lt;a href=&quot;http://www.yihangho.com/cloud-ide-ii-nitrous-io/&quot;&gt;review&lt;/a&gt; for &lt;a href=&quot;https://www.nitrous.io/join/_5GqfzMZwkM&quot;&gt;Nitrous.IO&lt;/a&gt;, the terminal of Koding is quite laggy possibly due to network latency. As such, using Vim in Koding won’t be a pleasurable experience.&lt;/p&gt;
-
-&lt;h2 id=&quot;overall-experience&quot;&gt;Overall Experience&lt;/h2&gt;
-
-&lt;p&gt;Koding is supposed to be the most powerful IDE among the IDEs that I am reviewing. However, the overall experience is not excellent. Somehow the whole UI is not very responsive and the VM disconnects quite frequently.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;http://www.yihangho.com/cloud-ide-iii-koding/&quot;&gt;Cloud IDE III - Koding&lt;/a&gt; was originally published by Yihang Ho at &lt;a href=&quot;http://www.yihangho.com&quot;&gt;I am Yihang&lt;/a&gt; on August 05, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
