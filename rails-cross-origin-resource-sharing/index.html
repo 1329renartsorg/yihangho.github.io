@@ -118,7 +118,7 @@
       
     </div><!--/ .headline-wrap -->
     <div class="article-wrap">
-      <p>With the rise of several client-side frameworks like <a href="https://angularjs.org/">AngularJS</a>, servers are increasingly used as API endpoints. If you are using Rails and trying to port your front-end over to one of those client-side frameworks, the first thing Rails will tell you is something like this:</p>
+      <p>With the rise of several client-side frameworks like <a href="https://angularjs.org/">AngularJS</a>, servers are increasingly used as API endpoints. If you are using Rails and trying to port your front-end over to one of those client-side frameworks, the first thing that your browser developer console will tell you is something like this:</p>
 
 <blockquote>
   <p>No ‘Access-Control-Allow-Origin’ header is present on the requested resource.</p>
@@ -130,7 +130,16 @@
 <p>This message implies that your server does not want to share its resources with people coming from other origins. For example, if you are running <code>http://www.example.com</code>, your server is not happy to share its resources with people from <code>http://nope.example</code>. This is called Cross-Origin Resource Sharing (CORS) policy, and it can be configured by tweaking the values of some of the HTTP response headers. The most important one is <code>Access-Control-Allow-Origin</code> which should be set to the origin which your server wants to share its resources with.</p>
 
 <h2 id="solutions-given-by-the-interwebs">Solutions given by the interwebs</h2>
-<p>Other solutions that I have found on the Internet assumes that CORS is allowed every single action in your Rails app. My solution, however, does not make this assumption, and CORS can be switched on and off for any action as you like. The final product is available <a href="https://github.com/yihangho/rails-cors">here</a> on GitHub. If you need an example client, <a href="https://gist.github.com/yihangho/c2b78ec9edf69868b0e1">here</a> is one.</p>
+<p>Other solutions that I have found on the Internet assumes that CORS is allowed every single action in your Rails app. My solution, however, does not make this assumption, and CORS can be switched on and off for any action as you like. The final product is available <a href="https://github.com/yihangho/rails-cors">here</a> on GitHub. Please note that this sample app supports only two actions:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>GET /posts
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>DELETE /posts/X
+</pre></div>
+</div>
+</div>
+
+<p>If you need an example client, <a href="https://gist.github.com/yihangho/c2b78ec9edf69868b0e1">here</a> is one.</p>
 
 <h2 id="example">Example</h2>
 <p>For this example, assume that our Rails server is serving at <code>http://localhost:3000</code>, and our front-end client is accessible at <code>http://localhost:8000</code>. Although only the ports are different, in the context of HTTP, they belongs to two different origins.</p>
@@ -358,11 +367,11 @@
   <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
     <ul>
     
-      <li><a href="http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/" title="AngularJS modules on Google Hosted Libraries">AngularJS modules on Google Hosted Libraries</a></li>
+      <li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use/" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li>
     
-      <li><a href="http://www.yihangho.com/my-first-pull-request/" title="My first Pull Request">My first Pull Request</a></li>
+      <li><a href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell/" title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li>
     
-      <li><a href="http://www.yihangho.com/bezier/" title="Bézier">Bézier</a></li>
+      <li><a href="http://www.yihangho.com/us-visa-application/" title="US Visa Application">US Visa Application</a></li>
     
     </ul>
     <hr />

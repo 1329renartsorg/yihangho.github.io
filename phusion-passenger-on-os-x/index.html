@@ -131,13 +131,11 @@
   <li>Also, there is a suggested snippet to set up virtual host for rail projects. I did that to, and the virtual host serves a dummy application just created by <code>rails new</code>.</li>
   <li><code>sudo apachectl restart</code></li>
   <li>Visit the virtual host. Browser complains that ‘Oops! Google Chrome could not connect to…’ All the existing virtual hosts that were working are not working anymore.</li>
-  <li>
-    <p>Next I tried <code>httpd -t</code>. This is the output:</p>
-
-    <pre><code> httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
-</code></pre>
-  </li>
+  <li>Next I tried <code>httpd -t</code>. This is the output:</li>
 </ul>
+
+<pre><code>   httpd: Syntax error on line 513 of /private/etc/apache2/httpd.conf: Cannot load /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so into server: dlopen(/Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so, 10): Symbol not found: __ZNSt3tr18__detail12__prime_listE\n  Referenced from: /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so\n  Expected in: flat namespace\n in /Users/yihangho/.rvm/gems/ruby-2.0.0-p247/gems/passenger-4.0.17/buildout/apache2/mod_passenger.so
+</code></pre>
 
 <p>I’ve been Googling a lot and nobody else seems to have this problem. Until I tried to use all the default tools - this includes GCC/G++. So what I did was to (temporarily) remove <code>/usr/local/bin</code> from my <code>PATH</code> variable (most likely they are set in <code>~/.bashrc</code>, <code>~/bash_profile</code> and/or <code>/etc/paths</code>), which effectively temporarily remove <em>ALL</em> homebrew installed application. I have to admit that the proper way is to <code>brew unlink gcc48</code> then <code>brew link gcc48</code> at the end. After you have done this, just trigger <code>passenger-install-apache2-module</code> and all should be good. <img class="emoji" title="smile" alt="smile" src="https://github.global.ssl.fastly.net/images/icons/emoji/smile.png" height="20" width="20" align="absmiddle" /></p>
 
@@ -177,11 +175,11 @@
   <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
     <ul>
     
-      <li><a href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" title="Rails Cross-Origin Resource Sharing">Rails Cross-Origin Resource Sharing</a></li>
+      <li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use/" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li>
     
-      <li><a href="http://www.yihangho.com/angularjs-modules-on-google-hosted-libraries/" title="AngularJS modules on Google Hosted Libraries">AngularJS modules on Google Hosted Libraries</a></li>
+      <li><a href="http://www.yihangho.com/us-visa-application/" title="US Visa Application">US Visa Application</a></li>
     
-      <li><a href="http://www.yihangho.com/my-first-pull-request/" title="My first Pull Request">My first Pull Request</a></li>
+      <li><a href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell/" title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li>
     
     </ul>
     <hr />
