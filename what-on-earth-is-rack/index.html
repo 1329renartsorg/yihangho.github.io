@@ -1,0 +1,361 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>What on Earth is Rack? &#8211; I am Yihang</title>
+<meta name="description" content="Understanding Rack and Middleware.">
+<meta name="keywords" content="Ruby, Rack">
+<!-- Twitter Cards -->
+	
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content=
+			
+				
+						"http://www.yihangho.com/images/"
+				
+			
+		>
+	
+	<meta name="twitter:title" content="What on Earth is Rack?">
+	<meta name="twitter:description" content="Understanding Rack and Middleware.">
+	<meta name="twitter:creator" content="@yihang5">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What on Earth is Rack?">
+<meta property="og:description" content="Understanding Rack and Middleware.">
+<meta property="og:url" content="http://www.yihangho.com/what-on-earth-is-rack/">
+<meta property="og:site_name" content="I am Yihang">
+
+
+
+
+
+<link rel="canonical" href="http://www.yihangho.com/what-on-earth-is-rack/">
+<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
+<link rel="author" href="http://plus.google.com/+YihangHo?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://www.yihangho.com/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://www.yihangho.com/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://www.yihangho.com">I am Yihang</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				<li><a href="http://www.yihangho.com/about/" >About</a></li>
+		        
+				<li><a href="http://www.yihangho.com/posts/" >Posts</a></li>
+		        
+				<li><a href="http://www.yihangho.com/apps/" >Apps</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+  </div>
+  <article>
+    <div class="headline-wrap">
+      
+        <h1><a href="http://www.yihangho.com/what-on-earth-is-rack/" rel="bookmark" title="What on Earth is Rack?">What on Earth is Rack?</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>If you have done some Rails or Sinatra programming, you might have come across enigmatic jargons like Rack and Middleware. So what on Earth are these two things?</p>
+
+<h2 id="rack">Rack</h2>
+<p>Rack is just an interface or protocol that dictates how a web server, like WEBrick and Thin, communicate with your application. In this context, a web server is a program that listens to HTTP traffic and sends out response to the client. On the other hand, application is the one that generates response for the web server to send to the client.</p>
+
+<p>The Rack interface is incredibly simple. The web server should parse the HTTP request and generate a Ruby Hash.</p>
+
+<p>The application, on the other end of the interface, should respond to <code>call</code>, taking in the Hash produced by the web server, does some processing, and spits out a response, which is a 3-element array.</p>
+
+<ul>
+  <li>The first element, when parsed as an integer using its <code>to_i</code> method, represents the HTTP response status.</li>
+  <li>The second element is a Hash that represents the response header.</li>
+  <li>The third element is usually an Array of String. In general, it has to respond to <code>each</code> and yield a String when called.</li>
+</ul>
+
+<p>As an example, this is how you implement a simple Rack application:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777"># config.ru</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777"># Run `rackup config.ru` to start a web server</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>app = <span style="color:#036;font-weight:bold">Proc</span>.new <span style="color:#080;font-weight:bold">do</span> |env|
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  [<span style="color:#00D">200</span>, {<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Content-Type</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">text/html</span><span style="color:#710">&quot;</span></span>}, [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello!&lt;br&gt;You requested </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span>env[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">PATH_INFO</span><span style="color:#710">'</span></span>]<span style="font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>]]
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>run app
+</pre></div>
+</div>
+</div>
+
+<h2 id="middleware">Middleware</h2>
+<p>A middleware is specified by a Ruby class. The constructor of instances of this class takes an object that responds to <code>call</code> (more on this later on); this instance itself should also respond to <code>call</code>. The <code>use</code> method is used to attach middlewares.</p>
+
+<p>Let’s build our first middleware that prints logs the incoming request:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">MyLoggerMiddleware</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(app)
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span style="color:#33B">@app</span> = app
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">call</span>(env)
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>    puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span>env[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">REQUEST_METHOD</span><span style="color:#710">&quot;</span></span>]<span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20"> </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span>env[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">PATH_INFO</span><span style="color:#710">&quot;</span></span>]<span style="font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>    <span style="color:#33B">@app</span>.call(env)
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>app = <span style="color:#036;font-weight:bold">Proc</span>.new <span style="color:#080;font-weight:bold">do</span> |env|
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>  [<span style="color:#00D">200</span>, {<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Content-Type</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">text/html</span><span style="color:#710">&quot;</span></span>}, [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello!</span><span style="color:#710">&quot;</span></span>]]
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>use <span style="color:#036;font-weight:bold">MyLoggerMiddleware</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>run app
+</pre></div>
+</div>
+</div>
+
+<h3 id="multiple-middlewares">Multiple Middlewares</h3>
+<p>It is also possible, and often the case, to use multiple middlewares. Simply call <code>use</code> multiple times to attach all the middlewares that will be used:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">middleware_a</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">middleware_b</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">middleware_c</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">app</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>use <span style="color:#036;font-weight:bold">MiddlewareA</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>use <span style="color:#036;font-weight:bold">MiddlewareB</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>use <span style="color:#036;font-weight:bold">MiddlewareC</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>run app
+</pre></div>
+</div>
+</div>
+
+<p>As mentioned earlier, when an instance of a middleware is initialized, the constructor receives an object that responds to <code>call</code>. In reality, this object is either the application or an instance of another middleware. When multiple middlewares are attached, only the last middleware will be given the actual application; the rest are given the next middleware. Because of this, the order in which the middlewares are attached is important.</p>
+
+<p>Consider the previous example, the application initialization might look something like this:</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>middleware_c = new MiddlewareC(app)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>middleware_b = new MiddlewareB(middleware_c)
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>middleware_a = new MiddlewareA(middleware_b)
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span><span style="color:#777"># When a request comes in:</span>
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span>middleware_a.call(env)
+</pre></div>
+</div>
+</div>
+
+<p>As a result, middlewares “cascade”: each middleware can intercept, pre-process, post-process, or do nothing about each request:</p>
+
+<pre><code>+--------+ -&gt; +-------------+ -&gt; ... -&gt; +-------------+ -&gt; +-------------+
+| Server |    | MiddlewareA |           | MiddlewareZ |    | Application |
++--------+ &lt;- +-------------+ &lt;- ... &lt;- +-------------+ &lt;- +-------------+
+</code></pre>
+
+<h1 id="example">Example</h1>
+<p>In this example, the application will generate an HTML paragraph, and we will implement middlewares responsible of the following:</p>
+
+<ol>
+  <li>Returns 404 for unsupported path - <code>HTTPStatusMiddleware</code>.</li>
+  <li>Wrap the response in a HTML boilerplate - <code>HTMLMiddleware</code>.</li>
+  <li>Add a footer to the response - <code>FooterMiddleware</code>.</li>
+</ol>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">HTTPStatusMiddleware</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(app)
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span style="color:#777"># Here, app is an instance of HTMLMiddleware</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>    <span style="color:#33B">@app</span> = app
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">call</span>(env)
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>    <span style="color:#080;font-weight:bold">if</span> env[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">PATH_INFO</span><span style="color:#710">&quot;</span></span>] =~ <span style="background-color:hsla(300,100%,50%,0.06)"><span style="color:#404">/</span><span style="color:#D20">\A</span><span style="color:#D20">\/</span><span style="color:#808">posts</span><span style="color:#404">/</span></span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>      <span style="color:#33B">@app</span>.call(env)
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>    <span style="color:#080;font-weight:bold">else</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>      [<span style="color:#00D">404</span>, {<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Content-Type</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">text/html</span><span style="color:#710">&quot;</span></span>}, [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Not Found</span><span style="color:#710">&quot;</span></span>]]
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>    <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">HTMLMiddleware</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(app)
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>    <span style="color:#777"># Here, app is an instance of FooterMiddleware</span>
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>    <span style="color:#33B">@app</span> = app
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n23" name="n23">23</a></span>
+<span class="line-numbers"><a href="#n24" name="n24">24</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">call</span>(env)
+<span class="line-numbers"><a href="#n25" name="n25">25</a></span>    res = <span style="color:#33B">@app</span>.call(env)
+<span class="line-numbers"><a href="#n26" name="n26">26</a></span>    content = res.last
+<span class="line-numbers"><a href="#n27" name="n27">27</a></span>    content.unshift <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&lt;&lt;-HEREDOC</span></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20"></span></span>
+<span class="line-numbers"><a href="#n28" name="n28">28</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">    &lt;!DOCTYPE html&gt;</span></span>
+<span class="line-numbers"><a href="#n29" name="n29">29</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">    &lt;html&gt;</span></span>
+<span class="line-numbers"><strong><a href="#n30" name="n30">30</a></strong></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">      &lt;head&gt;</span></span>
+<span class="line-numbers"><a href="#n31" name="n31">31</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">        &lt;meta charset=&quot;utf-8&quot;&gt;</span></span>
+<span class="line-numbers"><a href="#n32" name="n32">32</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">        &lt;title&gt;My Blog&lt;/title&gt;</span></span>
+<span class="line-numbers"><a href="#n33" name="n33">33</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">      &lt;/head&gt;</span></span>
+<span class="line-numbers"><a href="#n34" name="n34">34</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">      &lt;body&gt;</span><span style="color:#710"></span></span>
+<span class="line-numbers"><a href="#n35" name="n35">35</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">    HEREDOC</span></span>
+<span class="line-numbers"><a href="#n36" name="n36">36</a></span>    content.push <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&lt;&lt;-HEREDOC</span></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20"></span></span>
+<span class="line-numbers"><a href="#n37" name="n37">37</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">      &lt;/body&gt;</span></span>
+<span class="line-numbers"><a href="#n38" name="n38">38</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">    &lt;/html&gt;</span><span style="color:#710"></span></span>
+<span class="line-numbers"><a href="#n39" name="n39">39</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">    HEREDOC</span></span>
+<span class="line-numbers"><strong><a href="#n40" name="n40">40</a></strong></span>    res
+<span class="line-numbers"><a href="#n41" name="n41">41</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n42" name="n42">42</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n43" name="n43">43</a></span>
+<span class="line-numbers"><a href="#n44" name="n44">44</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">FooterMiddleware</span>
+<span class="line-numbers"><a href="#n45" name="n45">45</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(app)
+<span class="line-numbers"><a href="#n46" name="n46">46</a></span>    <span style="color:#777"># Here, app is the Proc we define below</span>
+<span class="line-numbers"><a href="#n47" name="n47">47</a></span>    <span style="color:#33B">@app</span> = app
+<span class="line-numbers"><a href="#n48" name="n48">48</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n49" name="n49">49</a></span>
+<span class="line-numbers"><strong><a href="#n50" name="n50">50</a></strong></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">call</span>(env)
+<span class="line-numbers"><a href="#n51" name="n51">51</a></span>    res = <span style="color:#33B">@app</span>.call(env)
+<span class="line-numbers"><a href="#n52" name="n52">52</a></span>    res[<span style="color:#00D">2</span>].push(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">&lt;footer&gt;Copyright Yihang Ho 2014&lt;/footer&gt;</span><span style="color:#710">&quot;</span></span>)
+<span class="line-numbers"><a href="#n53" name="n53">53</a></span>    res
+<span class="line-numbers"><a href="#n54" name="n54">54</a></span>  <span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n55" name="n55">55</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><a href="#n56" name="n56">56</a></span>
+<span class="line-numbers"><a href="#n57" name="n57">57</a></span>app = <span style="color:#036;font-weight:bold">Proc</span>.new <span style="color:#080;font-weight:bold">do</span> |env|
+<span class="line-numbers"><a href="#n58" name="n58">58</a></span>  [<span style="color:#00D">200</span>, {<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Content-Type</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">text/html</span><span style="color:#710">&quot;</span></span>}, [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">&lt;p&gt;Hello, this is my blog, powered (proudly) by Rack.&lt;p&gt;</span><span style="color:#710">&quot;</span></span>]]
+<span class="line-numbers"><a href="#n59" name="n59">59</a></span><span style="color:#080;font-weight:bold">end</span>
+<span class="line-numbers"><strong><a href="#n60" name="n60">60</a></strong></span>
+<span class="line-numbers"><a href="#n61" name="n61">61</a></span>use <span style="color:#036;font-weight:bold">HTTPStatusMiddleware</span>
+<span class="line-numbers"><a href="#n62" name="n62">62</a></span>use <span style="color:#036;font-weight:bold">HTMLMiddleware</span>
+<span class="line-numbers"><a href="#n63" name="n63">63</a></span>use <span style="color:#036;font-weight:bold">FooterMiddleware</span>
+<span class="line-numbers"><a href="#n64" name="n64">64</a></span>run app
+</pre></div>
+</div>
+</div>
+
+<p>Take note that the order in which the middlewares are attached is important in this example, especially the relative order of <code>HTMLMiddleware</code> and <code>FooterMiddleware</code>. If these two middlewares are swapped, the <code>footer</code> tag will appear after the closing <code>HTML</code> tag!</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+        </div>
+        <p class="byline"><strong>What on Earth is Rack?</strong> was published on <time datetime="2014-11-28T00:00:00+08:00">November 28, 2014</time> by <a href="http://www.yihangho.com/about" title="About Yihang Ho">Yihang Ho</a>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" title="Rails Cross-Origin Resource Sharing">Rails Cross-Origin Resource Sharing</a></li>
+    
+      <li><a href="http://www.yihangho.com/chrome-extension-development-in-a-nutshell/" title="Chrome Extension Development in a Nutshell">Chrome Extension Development in a Nutshell</a></li>
+    
+      <li><a href="http://www.yihangho.com/raspberry-pi-vs-chromebook-for-education-use/" title="Raspberry Pi vs. Chromebook (for education use)">Raspberry Pi vs. Chromebook (for education use)</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
+
+
+<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
+	        
+
+</body>
+</html>
