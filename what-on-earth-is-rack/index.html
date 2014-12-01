@@ -49,6 +49,7 @@
 <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
 <!-- For all browsers -->
 <link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/styles.css">
 
 <meta http-equiv="cleartype" content="on">
 
@@ -213,10 +214,9 @@
 
 <p>As a result, middlewares “cascade”: each middleware can intercept, pre-process, post-process, or do nothing about each request:</p>
 
-<pre><code>+--------+ -&gt; +-------------+ -&gt; ... -&gt; +-------------+ -&gt; +-------------+
-| Server |    | MiddlewareA |           | MiddlewareZ |    | Application |
-+--------+ &lt;- +-------------+ &lt;- ... &lt;- +-------------+ &lt;- +-------------+
-</code></pre>
+<div class="img-container">
+  <img src="/images/Rack Middleware Flow.svg" title="Rack Middleware Flowchart" />
+</div>
 
 <h1 id="example">Example</h1>
 <p>In this example, the application will generate an HTML paragraph, and we will implement middlewares responsible of the following:</p>
