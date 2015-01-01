@@ -133,7 +133,7 @@
 <h2 id="solutions-given-by-the-interwebs">Solutions given by the interwebs</h2>
 <p>Other solutions that I have found on the Internet assumes that CORS is allowed every single action in your Rails app. My solution, however, does not make this assumption, and CORS can be switched on and off for any action as you like. The final product is available <a href="https://github.com/yihangho/rails-cors">here</a> on GitHub. Please note that this sample app supports only two actions:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>GET /posts
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>DELETE /posts/X
 </pre></div>
@@ -150,7 +150,7 @@
 
 <p>We can achieve this by implementing a thin wrapper, <code>allow_cors</code>, to set up <code>before_action</code> callback and properly disable Rails CSRF protection for those actions.</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">ApplicationController</span> &lt; <span style="color:#036;font-weight:bold">ActionController</span>::<span style="color:#036;font-weight:bold">Base</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#777"># allow_cors takes in arbitrarily many symbols representing actions that</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#777"># CORS should be enabled for</span>
@@ -172,7 +172,7 @@
 </div>
 </div>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">PostsController</span> &lt; <span style="color:#036;font-weight:bold">ApplicationController</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  allow_cors <span style="color:#A60">:index</span>, <span style="color:#A60">:other_methods</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
@@ -199,7 +199,7 @@
 
 <p>As an example, suppose your front-end client wishes to make this HTTP request:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>DELETE http://localhost:3000/users/1.json
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>Lucky-Number: 123
@@ -210,7 +210,7 @@
 
 <p>Before the browser executes this request, it will first send a preflight request that looks like this:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>OPTIONS http://localhost:3000/users/1.json
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>Access-Control-Request-Method: DELETE
@@ -239,7 +239,7 @@
 
 <p>So to handle the preflight requests, our Rails app will have to be able to construct a proper response to it, and this starts with responding to <code>OPTIONS</code> request. First, we will generate a controller to actually respond to these preflight requests:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>rails generate controller Cors preflight
 </pre></div>
 </div>
@@ -247,7 +247,7 @@
 
 <p>Then make it respond to all the preflight requests. In <code>routes.rb</code>,</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777"># config/routes.rb</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Rails</span>.application.routes.draw <span style="color:#080;font-weight:bold">do</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#777"># Remove get 'cors/preflight' added by the generator</span>
@@ -264,7 +264,7 @@
 
 <p>Just like what we have done with the simple methods requests, we will only allow CORS for actions that are explicitly listed. Hence, we have to record the list of allowed actions:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">ApplicationController</span> &lt; <span style="color:#036;font-weight:bold">ActionController</span>::<span style="color:#036;font-weight:bold">Base</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#069">self</span>.<span style="color:#06B;font-weight:bold">cors_allowed_actions</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span style="color:#33B">@cors_allowed_actions</span> ||= []
@@ -286,7 +286,7 @@
 
 <p>Here comes the more complicated part. First, we ask Rails which controller and action are responsible for the request, then check if that action is allowed to enable CORS.</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">CorsController</span> &lt; <span style="color:#036;font-weight:bold">ApplicationController</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">preflight</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span style="color:#080;font-weight:bold">begin</span>
@@ -378,7 +378,7 @@
     <hr />
   </div><!-- /.related-articles -->
   <footer>
-    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+    <span>&copy; 2013 - 2015 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
 
   </footer>
 </div><!-- /.footer-wrap -->

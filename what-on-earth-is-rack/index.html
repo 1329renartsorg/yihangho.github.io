@@ -136,7 +136,7 @@
 
 <p>As an example, this is how you implement a simple Rack application:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777"># config.ru</span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777"># Run `rackup config.ru` to start a web server</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
@@ -155,7 +155,7 @@
 
 <p>Let’s build our first middleware that prints logs the incoming request:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">MyLoggerMiddleware</span>
@@ -182,7 +182,7 @@
 <h3 id="multiple-middlewares">Multiple Middlewares</h3>
 <p>It is also possible, and often the case, to use multiple middlewares. Simply call <code>use</code> multiple times to attach all the middlewares that will be used:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">middleware_a</span><span style="color:#710">'</span></span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">middleware_b</span><span style="color:#710">'</span></span>
@@ -201,7 +201,7 @@
 
 <p>Consider the previous example, the application initialization might look something like this:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>middleware_c = new MiddlewareC(app)
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>middleware_b = new MiddlewareB(middleware_c)
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>middleware_a = new MiddlewareA(middleware_b)
@@ -227,7 +227,7 @@
   <li>Add a footer to the response - <code>FooterMiddleware</code>.</li>
 </ol>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>require <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">rack</span><span style="color:#710">'</span></span>
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">HTTPStatusMiddleware</span>
@@ -344,7 +344,7 @@
     <hr />
   </div><!-- /.related-articles -->
   <footer>
-    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+    <span>&copy; 2013 - 2015 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
 
   </footer>
 </div><!-- /.footer-wrap -->

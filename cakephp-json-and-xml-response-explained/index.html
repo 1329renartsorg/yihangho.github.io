@@ -124,7 +124,7 @@
 <h2 id="making-request">Making request</h2>
 <p>A single action can be made to respond the beautiful HTML, and also machine-readable JSON and XML. For example, to access the <code>index</code> action of the <code>posts</code> controller, we usually request for <a href="http://www.example.com/posts/index">http://www.example.com/posts/index</a>. To request for the JSON or XML version, simply append <code>.json</code> or <code>.xml</code> to the end of the action name. For example, <a href="http://www.example.com/posts/index.json">http://www.example.com/posts/index.json</a> or <a href="http://www.example.com/posts/index.xml">http://www.example.com/posts/index.xml</a>. Besides that, you can also add <code>Accept: application/json</code> or <code>Accept: application/xml</code> into the request header with or without appending <code>.json</code> or <code>.xml</code> to the action name. This can be simulated using curl:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>curl -H Accept:application/json http://www.example.com/posts/index
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span># or
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>curl -H Accept:application/xml http://www.example.com/posts/index
@@ -135,7 +135,7 @@
 <h2 id="configuration">Configuration</h2>
 <p>We need to tell CakePHP and the controllers involved to accept and process JSON and XML request. First, add</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Router</span>::parseExtensions(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">json</span><span style="color:#710">'</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">xml</span><span style="color:#710">'</span></span>);
 </pre></div>
 </div>
@@ -143,7 +143,7 @@
 
 <p>into <code>app/Config/routes.php</code>. Also, inside the class definition of all the controllers involved (for example in <code>app/Controller/PostsController.php</code>), insert</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">public</span> <span style="color:#950">$components</span> = <span style="color:#369;font-weight:bold">array</span>(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">RequestHandler</span><span style="color:#710">'</span></span>);
 </pre></div>
 </div>
@@ -154,7 +154,7 @@
 <h2 id="using-serialize-key">Using serialize key</h2>
 <p>Suppose we want to encode the following array into JSON and XML:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#950">$output</span> = <span style="color:#369;font-weight:bold">array</span>(
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>    <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">status</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">OK</span><span style="color:#710">&quot;</span></span>,
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>    <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">message</span><span style="color:#710">&quot;</span></span> =&gt; <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">You are good</span><span style="color:#710">&quot;</span></span>,
@@ -166,7 +166,7 @@
 
 <p>We need to first <code>set()</code> all the keys in the array:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#950">$this</span>-&gt;set(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">status</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">OK</span><span style="color:#710">&quot;</span></span>);
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#950">$this</span>-&gt;set(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">message</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">You are good</span><span style="color:#710">&quot;</span></span>);
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#950">$this</span>-&gt;set(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">content</span><span style="color:#710">&quot;</span></span>, <span style="color:#950">$content</span>);
@@ -181,7 +181,7 @@
 
 <p>and then tell CakePHP which keys should appear in the output array:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#950">$this</span>-&gt;set(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">_serialize</span><span style="color:#710">&quot;</span></span>, <span style="color:#369;font-weight:bold">array</span>(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">status</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">message</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">content</span><span style="color:#710">&quot;</span></span>));
 </pre></div>
 </div>
@@ -192,7 +192,7 @@
 <h2 id="using-views">Using views</h2>
 <p>I guess for most of the time, the method that does not involve a view should be sufficient. Other times, for example, if you want some data to appear in the HTML version, but not on the JSON and XML version, you might do the necessary data processing in the view. The views for JSON and XML are defined in <code>app/Views/&lt;controller name&gt;/&lt;json or xml&gt;/&lt;action name&gt;.ctp</code>. For example, <code>app/Views/Posts/json/index.ctp</code>. To enable the views for JSON and XML, you <em>have</em> to <strong>disable</strong> <code>$this-&gt;set("_serialize", array(...));</code>. Also, the view <strong>must</strong> generate a <strong>valid</strong> JSON or XML string, or else CakePHP will throw an error.</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#777">// app/Controller/PostsController.php</span>
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#080;font-weight:bold">public</span> <span style="color:#080;font-weight:bold">function</span> <span style="color:#06B;font-weight:bold">index</span>() {
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>    <span style="color:#950">$this</span>-&gt;set(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">posts</span><span style="color:#710">'</span></span>, <span style="color:#950">$this</span>-&gt;<span style="color:#036;font-weight:bold">Post</span>-&gt;find(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">all</span><span style="color:#710">'</span></span>));
@@ -201,7 +201,7 @@
 </div>
 </div>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>// app/Views/Posts/json/index.ctp
 <span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="font-weight:bold;color:#666">&lt;?php</span>
 <span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#080;font-weight:bold">for</span> (<span style="color:#950">$i</span>=<span style="color:#00D">0</span>; <span style="color:#950">$i</span>&lt;<span style="color:#369;font-weight:bold">count</span>(<span style="color:#950">$posts</span>); <span style="color:#950">$i</span>++)
@@ -264,7 +264,7 @@
     <hr />
   </div><!-- /.related-articles -->
   <footer>
-    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+    <span>&copy; 2013 - 2015 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
 
   </footer>
 </div><!-- /.footer-wrap -->

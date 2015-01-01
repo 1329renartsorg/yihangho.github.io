@@ -121,7 +121,7 @@
     <div class="article-wrap">
       <p>When working with C strings, <code>strlen</code> is a function that helps to determine the length of a string. Although C strings are essentially arrays of <code>char</code>s, the length of a string is not equal to the size of that array. For example,</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>var ch[<span style="color:#00D">100</span>] = <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello World!</span><span style="color:#710">&quot;</span></span>; <span style="color:#777">// Size of array = 100</span>
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>strlen(ch); <span style="color:#777">// Length = 12</span>
 </pre></div>
@@ -130,7 +130,7 @@
 
 <p>If we think of strings as objects (which is not the case in C), it is easy to implement <code>strlen</code> that runs in amortized constant time. However, since C does not support object oriented programming, there is no way to achieve this kind of runtime. As a result, <code>strlen</code> is much slower than you imagine. If you need the value from <code>strlen</code> for a particular string and it will not be changed, you should store that value, especially when I will be used repetitively. (Like when iterating through that string.) For example,</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#0a8;font-weight:bold">int</span> len = strlen(ch);
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#080;font-weight:bold">for</span> (<span style="color:#0a8;font-weight:bold">int</span> i=<span style="color:#00D">0</span>; i&lt;len; i++)
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>{
@@ -142,7 +142,7 @@
 
 <p>or</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">for</span> (<span style="color:#0a8;font-weight:bold">int</span> i=<span style="color:#00D">0</span>; ch[i]; i++)
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>{
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>    <span style="color:#777">//Do something</span>
@@ -153,7 +153,7 @@
 
 <p>but not</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#080;font-weight:bold">for</span> (<span style="color:#0a8;font-weight:bold">int</span> i=<span style="color:#00D">0</span>; i&lt;strlen(ch); i++)
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>{
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>    <span style="color:#777">//Do something</span>
@@ -166,7 +166,7 @@
 
 <p>How I imagine <code>strlen</code> works:</p>
 
-<div><div class="CodeRay">
+<div class="highlighter-coderay"><div class="CodeRay">
   <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#0a8;font-weight:bold">int</span> strlen(<span style="color:#0a8;font-weight:bold">char</span> *ch)
 <span class="line-numbers"><a href="#n2" name="n2">2</a></span>{
 <span class="line-numbers"><a href="#n3" name="n3">3</a></span>    <span style="color:#0a8;font-weight:bold">int</span> i=<span style="color:#00D">0</span>;
@@ -225,7 +225,7 @@
     <hr />
   </div><!-- /.related-articles -->
   <footer>
-    <span>&copy; 2014 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+    <span>&copy; 2013 - 2015 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
 
   </footer>
 </div><!-- /.footer-wrap -->
