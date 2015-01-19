@@ -1,0 +1,301 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Java Nested Classes: Behind the Scenes &#8211; I am Yihang</title>
+<meta name="description" content="">
+<meta name="keywords" content="Java, JVM">
+<!-- Twitter Cards -->
+	
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content=
+			
+				
+						"http://www.yihangho.com/images/"
+				
+			
+		>
+	
+	<meta name="twitter:title" content="Java Nested Classes: Behind the Scenes">
+	<meta name="twitter:description" content="Things that I find interesting, with a special emphasis on technological stuff.">
+	<meta name="twitter:creator" content="@yihang5">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Nested Classes: Behind the Scenes">
+<meta property="og:description" content="Things that I find interesting, with a special emphasis on technological stuff.">
+<meta property="og:url" content="http://www.yihangho.com/java-nested-classes-behind-the-scenes/">
+<meta property="og:site_name" content="I am Yihang">
+
+
+
+
+
+<link rel="canonical" href="http://www.yihangho.com/java-nested-classes-behind-the-scenes/">
+<link href="http://www.yihangho.com/feed.xml" type="application/atom+xml" rel="alternate" title="I am Yihang Feed">
+<link rel="author" href="http://plus.google.com/+YihangHo?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/main.min.css">
+<link rel="stylesheet" href="http://www.yihangho.com/assets/css/styles.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://www.yihangho.com/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://www.yihangho.com/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://www.yihangho.com/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://www.yihangho.com">I am Yihang</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				<li><a href="http://www.yihangho.com/about/" >About</a></li>
+		        
+				<li><a href="http://www.yihangho.com/posts/" >Posts</a></li>
+		        
+				<li><a href="http://www.yihangho.com/apps/" >Apps</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+  </div>
+  <article>
+    <div class="headline-wrap">
+      
+        <h1><a href="http://www.yihangho.com/java-nested-classes-behind-the-scenes/" rel="bookmark" title="Java Nested Classes: Behind the Scenes">Java Nested Classes: Behind the Scenes</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>Java supports nested classes - classes that exist in the body of other classes. As we know, when a piece of Java code is compiled, one or more Java class files are produced. Each class file fully represents a single class or interface. So what happens if we chuck a class inside another class? Do we have the analogous nested class files or something like that? Turns out nested classes are merely syntactical sugar provided by the compiler. The JVM knows absolutely nothing about the fact that certain classes are nested.</p>
+
+<p>What the Java compiler does is that it moves nested classes to become regular classes and generates or modifies the constructors of these nested classes to take in a reference of an instance of the outer class. This reference is kept to in order to access non-private fields.</p>
+
+<p>If we compile this piece of code, two class files will be generated - <code>Outer.class</code> and <code>Outer$Nested.class</code>.</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777">// Outer.java</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span> {
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#339;font-weight:bold">int</span> x = <span style="color:#00D">10</span>;
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>  <span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Nested</span> {
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>    <span style="color:#339;font-weight:bold">int</span> add(<span style="color:#339;font-weight:bold">int</span> y) {
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>      <span style="color:#080;font-weight:bold">return</span> x + y;
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>    }
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  }
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>}
+</pre></div>
+</div>
+</div>
+
+<p>It is obvious that the <code>Nested</code> class now becomes the <code>Outer$Nested</code> class. The <code>add</code> method of <code>Outer$Nested</code> needs to access <code>x</code> of the <code>Outer</code> class. The Java disassembler, <code>javap</code>, can be used to show the signature of a class. Doing that on <code>Outer$Nested</code> can give us an idea how <code>Outer$Nested</code> accesses <code>x</code>:</p>
+
+<pre><code>$ javac Outer.java      # Generate Outer.class and Outer$Nested.class
+$ javap Outer\$Nested   # Note that we have to escape the dollar sign
+Compiled from "Outer.java"
+class Outer$Nested {
+  final Outer this$0;
+  Outer$Nested(Outer);
+  int add(int);
+}
+</code></pre>
+
+<p>As predicted, the constructor takes a reference of an instance of the <code>Outer</code> class. If we look at the bytecode, we can see that this reference is kept in the <code>this$0</code> field.</p>
+
+<p>Hence, we can imagine that the decompiled code looks something like this:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span> {
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#339;font-weight:bold">int</span> x = <span style="color:#00D">10</span>;
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>}
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span><span style="color:#F00;background-color:#FAA">$</span>Nested {
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  Outer <span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span>;
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  Outer<span style="color:#F00;background-color:#FAA">$</span>Nested(Outer t) {
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>    <span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span> = t;
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  }
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>  <span style="color:#339;font-weight:bold">int</span> add(<span style="color:#339;font-weight:bold">int</span> y) {
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>    <span style="color:#080;font-weight:bold">return</span> <span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span>.x + y;
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>  }
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>}
+</pre></div>
+</div>
+</div>
+
+<p>However, this approach will not work if <code>x</code> is private as <code>this$0.x</code> will be illegal. What the compiler does this time is that it generates an accessor method to expose the value of <code>x</code>.</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#777">// Outer.java</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span> {
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span style="color:#088;font-weight:bold">private</span> <span style="color:#339;font-weight:bold">int</span> x = <span style="color:#00D">10</span>; <span style="color:#777">// Notice that x is now private</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>  <span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Nested</span> {
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>    <span style="color:#339;font-weight:bold">int</span> add(<span style="color:#339;font-weight:bold">int</span> y) {
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>      <span style="color:#080;font-weight:bold">return</span> x + y;
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>    }
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  }
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>}
+</pre></div>
+</div>
+</div>
+
+<p>Again, we can disassemble the generated class files to see the class signature:</p>
+
+<pre><code>$ javac Outer.java    # Generates Outer.class and Outer$Nested.class
+$ javap Outer\$Nested # The output is similar to the previous run
+$ javap -p Outer      # The -p flag outputs private members as well
+Compiled from "Outer.java"
+class Outer {
+  private int x;
+  Outer();
+  static int access$000(Outer);
+}
+</code></pre>
+
+<p>We can see that the compiler has synthesized the <code>access$000</code> method. It can be verified, again by looking at the bytecode, that this method indeed returns the value of <code>x</code> and is used by the <code>add</code> method of <code>Outer$Nested</code>. We can imagine that the transformation looks like this:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span> {
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span style="color:#088;font-weight:bold">private</span> <span style="color:#339;font-weight:bold">int</span> x = <span style="color:#00D">10</span>;
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span style="color:#088;font-weight:bold">static</span> <span style="color:#339;font-weight:bold">int</span> access<span style="color:#F00;background-color:#FAA">$</span><span style="color:#40E">000</span>(Outer t) {
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span style="color:#080;font-weight:bold">return</span> t.x;
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  }
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>}
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span><span style="color:#339;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Outer</span><span style="color:#F00;background-color:#FAA">$</span>Nested {
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  Outer <span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span>;
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>  Outer<span style="color:#F00;background-color:#FAA">$</span>Nester(Outer t) {
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>    <span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span> = t;
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>  }
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>  <span style="color:#339;font-weight:bold">int</span> add(<span style="color:#339;font-weight:bold">int</span> y) {
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>    <span style="color:#080;font-weight:bold">return</span> Outer.access<span style="color:#F00;background-color:#FAA">$</span><span style="color:#40E">000</span>(<span style="color:#950">this</span><span style="color:#F00;background-color:#FAA">$</span><span style="color:#00D">0</span>) + y;
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>  }
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>}
+</pre></div>
+</div>
+</div>
+
+<p>The examples presented here are using inner class, but the idea is similar for other types of nested classes, which are static nested class, local class, and anonymous class. The constructors for local classes and anonymous classes takes in additional variables in the scope that they are declared. Also, somehow, <code>javap</code> does not give the correct signature for the constructors of local classes, but the bytecode shows that the mechanism is as described here.</p>
+
+<p>Despite the fact that fields and methods like <code>this$0</code> and <code>access$000</code> are generated, they can never be used in your Java code. This is because the <code>$</code> symbol cannot be used as part of a valid identifier.</p>
+
+<p>In short, the concept of nested classes is a concept and syntactical sugar introduced by the Java compiler. This is achieve by generating or modifying the constructors of the nested class to take in a reference of an instance of outer class to access its non-private members, and by generating accessor methods to access the private members of the outer class.</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+	<img src="http://www.yihangho.com/images/bio-photo.jpg" class="bio-photo" alt="Yihang Ho bio photo"></a>
+
+<h3>Yihang Ho</h3>
+<p>Coder</p>
+<a href="http://twitter.com/yihang5" class="author-social" target="_blank"><i class="icon-twitter"></i> Twitter</a>
+<a href="http://facebook.com/yihangho" class="author-social" target="_blank"><i class="icon-facebook"></i> Facebook</a>
+<a href="http://plus.google.com/+YihangHo" class="author-social" target="_blank"><i class="icon-google-plus"></i> Google+</a>
+
+
+
+<a href="http://github.com/yihangho" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+
+
+
+<a href="mailto:me@yihangho.com" class="author-social" target="_blank"><i class="icon-mail"></i> Email</a>
+
+        </div>
+        <p class="byline"><strong>Java Nested Classes: Behind the Scenes</strong> was published on <time datetime="2015-01-19T00:00:00+08:00">January 19, 2015</time> by <a href="http://www.yihangho.com/about" title="About Yihang Ho">Yihang Ho</a>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://www.yihangho.com/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://www.yihangho.com/rails-cross-origin-resource-sharing/" title="Rails Cross-Origin Resource Sharing">Rails Cross-Origin Resource Sharing</a></li>
+    
+      <li><a href="http://www.yihangho.com/what-on-earth-is-rack/" title="What on Earth is Rack?">What on Earth is Rack?</a></li>
+    
+      <li><a href="http://www.yihangho.com/us-visa-application/" title="US Visa Application">US Visa Application</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    <span>&copy; 2013 - 2015 Yihang Ho. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://www.yihangho.com/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://www.yihangho.com/assets/js/scripts.min.js"></script>
+
+
+<script type="text/javascript">var _paq=_paq||[];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);(function(){var u=(("https:"==document.location.protocol)?"https":"http")+"://piwik-yihangho.rhcloud.com/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","1"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s)})();</script>
+	        
+
+</body>
+</html>
